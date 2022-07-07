@@ -25,14 +25,16 @@ public class BookManager {
 
         books = new ArrayList<>();
 
-        ResultSet rs = db.query("SELECT * FROM books;");
+        ResultSet rs = db.query("SELECT title, author, genres.genre, ISBN, quantity\n"
+                + "FROM librarydb.books, librarydb.genres\n"
+                + "WHERE books.genreID = genres.genreID;");
 
         while (rs.next()) {
-            String name = rs.getString(2);
-            String author = rs.getString(3);
-            String genre = rs.getString(4);
-            String ISBN = rs.getString(5);
-            int quantity = rs.getInt(6);
+            String name = rs.getString(1);
+            String author = rs.getString(2);
+            String genre = rs.getString(3);
+            String ISBN = rs.getString(4);
+            int quantity = rs.getInt(5);
 
             //array list has its own add and sort function
             books.add(new Book(name, author, genre, ISBN, quantity));
@@ -53,13 +55,29 @@ public class BookManager {
     public ArrayList<String> getGenres() throws ClassNotFoundException, SQLException {
         DB db = new DB();
         genres = new ArrayList<>();
-        ResultSet rs = db.query("SELECT * FROM genres;");
+        ResultSet rs = db.query("SELECT genre FROM genres;");
 
         while (rs.next()) {
-            String genre = rs.getString(2);
+            String genre = rs.getString(1);
             genres.add(genre);
         }
         return genres;
+    }
+
+    //COMPARES GENRE TO GENRE OF BOOK AT A SPECIFIC POSITION IN THE ARRAYLIST
+    public ArrayList<String> getBooksFromGenre(String gen) throws ClassNotFoundException, SQLException {
+        ArrayList<String> booksFromGenre;
+        booksFromGenre = new ArrayList<>();
+        DB db = new DB();
+        ResultSet rs = db.query("SELECT title\n"
+                + "FROM librarydb.books, librarydb.genres\n"
+                + "WHERE books.genreID = genres.genreID\n"
+                + "AND genres.genre = '" + gen + "';");
+        while (rs.next()) {
+            String title = rs.getString(1);
+            booksFromGenre.add(title);
+        }
+        return booksFromGenre;
     }
 
     public String toString() {

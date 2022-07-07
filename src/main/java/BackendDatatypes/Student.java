@@ -45,7 +45,9 @@ public class Student {
         this.grade = grade;
     }
 
-    public Student() {
-
+    @Override
+    public String toString() {
+        return "Student{" + "name=" + name + ", surname=" + surname + ", grade=" + grade + '}' + "\n";
     }
+
 }

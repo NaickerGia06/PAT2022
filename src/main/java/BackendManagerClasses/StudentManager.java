@@ -80,13 +80,29 @@ public class StudentManager {
         ArrayList<String> namesFromGrade = new ArrayList<>();
 
         DB db = new DB();
-        ResultSet rs = db.query("SELECT firstName FROM students WHERE grade = " + "");
+        ResultSet rs = db.query("SELECT firstName, surname FROM students WHERE grade = " + gr + ";");
 
         while (rs.next()) {
-            String grade = rs.getString(1);
-            namesFromGrade.add(grade);
+            String names = rs.getString(1);
+            String surnames = rs.getString(2);
+            namesFromGrade.add(names + " " + surnames);
         }
         return namesFromGrade;
+    }
+
+    //populating table with student names
+    public Object[][] makeStudentTable() {
+
+        Object[][] testTable = new Object[students.size()][3];
+
+        for (int row = 0; row < students.size(); row++) {
+
+            testTable[row][0] = students.get(row).getName();
+            testTable[row][1] = students.get(row).getSurname();
+            testTable[row][2] = students.get(row).getGrade();
+        }
+
+        return testTable;
     }
 
     @Override

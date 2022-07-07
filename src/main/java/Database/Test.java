@@ -9,6 +9,7 @@ import BackendManagerClasses.BookManager;
 import BackendManagerClasses.StudentManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JTable;
 
 /**
  *
@@ -18,9 +19,9 @@ public class Test {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         StudentManager sm = new StudentManager();
-        System.out.println(sm.toString());
+        BookManager bm = new BookManager();
+        System.out.println(bm.getBooksFromGenre("Fiction"));
+        System.out.println(sm.getNamesFromGrade(8));
 
-        //ArrayList<String> g = sm.getGrades();
-        //System.out.println(g.toString());
     }
 }

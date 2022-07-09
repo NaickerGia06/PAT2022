@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="1" pref="884" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="1" pref="904" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -105,7 +105,7 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="50" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="61" max="32767" attributes="0"/>
                       <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -379,7 +379,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jPanel6" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="43" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="63" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -465,7 +465,7 @@
                               <Component id="filterByGenreComboBox" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                               <Component id="filterGenreLabel" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="9" max="32767" attributes="0"/>
+                          <EmptySpace pref="15" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
@@ -474,10 +474,7 @@
                                       <Component id="selectStudentLabel" min="-2" pref="35" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="availableBooksToBorrowLabel" min="-2" pref="21" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="availableBooksToBorrowLabel" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -486,7 +483,7 @@
                                       <Component id="dateBorrowedLabel" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                       <Component id="dateBorrowedDatePicker" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" pref="13" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" pref="18" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="takenOutDurationLabel" min="-2" pref="35" max="-2" attributes="0"/>
                                       <Component id="takenOutDurationComboBox" alignment="1" min="-2" pref="30" max="-2" attributes="0"/>
@@ -832,7 +829,7 @@
                               <Component id="markAsReturnedRadioButton" min="-2" pref="38" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="74" max="32767" attributes="0"/>
+                      <EmptySpace pref="85" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1076,7 +1073,7 @@
                               <Component id="confirmRatingButton" min="-2" pref="33" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="73" max="32767" attributes="0"/>
+                      <EmptySpace pref="84" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1245,62 +1242,62 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="lookingForBooksLabel" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="12" pref="12" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jScrollPane7" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                      <Component id="weGotYouLabel" min="-2" max="-2" attributes="0"/>
-                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="searchGenreLabel" min="-2" pref="95" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="searchFavouriteAuthorLabel" min="-2" max="-2" attributes="0"/>
+                                          <Component id="searchFavouriteBookTitleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="searchBookTitleTextField" pref="186" max="32767" attributes="0"/>
+                                          <Component id="searchFavAuthorTextField" max="32767" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="searchFavAuthorButton" min="-2" pref="70" max="-2" attributes="0"/>
+                                          <Component id="searchTitleButton" min="-2" pref="70" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="1" attributes="0">
+                                          <Component id="jScrollPane7" pref="0" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="1" attributes="0">
+                                              <Component id="searchGenreLabel" max="32767" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
                                               <Component id="searchGenreComboBox" min="-2" pref="260" max="-2" attributes="0"/>
-                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="searchGenreButton" min="-2" pref="70" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" attributes="0">
-                                              <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="searchFavouriteBookTitleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="searchFavouriteAuthorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="searchFavAuthorTextField" min="-2" pref="260" max="-2" attributes="0"/>
-                                                      <EmptySpace max="32767" attributes="0"/>
-                                                      <Component id="searchFavAuthorButton" min="-2" pref="70" max="-2" attributes="0"/>
-                                                  </Group>
-                                                  <Group type="102" attributes="0">
-                                                      <Component id="searchBookTitleTextField" min="-2" pref="260" max="-2" attributes="0"/>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Component id="searchTitleButton" min="-2" pref="70" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
                                           </Group>
                                       </Group>
+                                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="weGotYouLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="jScrollPane6" min="-2" pref="273" max="-2" attributes="0"/>
                                   <Component id="youMightLikeLabel1" min="-2" pref="193" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane6" min="-2" pref="219" max="-2" attributes="0"/>
                               </Group>
+                              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="lookingForBooksLabel" pref="723" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
-                      <Component id="lookingForBooksLabel" pref="138" max="32767" attributes="0"/>
+                      <EmptySpace pref="41" max="32767" attributes="0"/>
+                      <Component id="lookingForBooksLabel" min="-2" pref="111" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="youMightLikeLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -1309,7 +1306,7 @@
                       <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jScrollPane6" min="-2" pref="291" max="-2" attributes="0"/>
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="searchTitleButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="searchBookTitleTextField" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
@@ -1323,7 +1320,6 @@
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="searchGenreButton" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="searchGenreComboBox" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                                   <Component id="searchGenreLabel" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
                               </Group>
@@ -1331,7 +1327,7 @@
                               <Component id="jScrollPane7" min="-2" pref="146" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1391,7 +1387,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="youMightLikeLabel1">
               <Properties>
-                <Property name="text" type="java.lang.String" value="You might also like:"/>
+                <Property name="text" type="java.lang.String" value="Comments:"/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Impact" size="15" style="0"/>
                 </Property>
@@ -1417,7 +1413,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="searchGenreLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Search  genre:"/>
+                <Property name="text" type="java.lang.String" value="Search  genres:"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
@@ -1450,14 +1446,6 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="searchGenreButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Search"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchGenreButtonActionPerformed"/>
-              </Events>
-            </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane7">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
@@ -1481,7 +1469,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="searchFavouriteAuthorLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Favourite book:"/>
+                <Property name="text" type="java.lang.String" value="Search authors:"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
@@ -1512,8 +1500,8 @@
         <Container class="javax.swing.JPanel" name="jPanel1">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Manage students">
-                <Property name="tabTitle" type="java.lang.String" value="Manage students"/>
+              <JTabbedPaneConstraints tabName="Manage Students">
+                <Property name="tabTitle" type="java.lang.String" value="Manage Students"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -1522,55 +1510,59 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="manageStudentsLabel" min="-2" pref="650" max="-2" attributes="0"/>
+                          <Component id="manageStudentsLabel" min="-2" pref="640" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="addStudentButton" max="32767" attributes="0"/>
-                                  <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="addStudentLabel" alignment="1" max="32767" attributes="0"/>
+                                  <Component id="addStudentButton" alignment="0" min="-2" pref="313" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Component id="surnameLabel" alignment="1" max="32767" attributes="0"/>
                                           <Component id="firstNameLabel" alignment="1" max="32767" attributes="0"/>
                                           <Component id="gradeLabel" min="-2" pref="115" max="-2" attributes="0"/>
+                                          <Component id="gradeLabel1" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                           <Component id="gradeComboBox" alignment="0" max="32767" attributes="0"/>
                                           <Component id="surnameTextField" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="firstNameTextField" alignment="0" min="-2" pref="186" max="-2" attributes="0"/>
+                                          <Component id="firstNameTextField" alignment="0" pref="186" max="32767" attributes="0"/>
+                                          <Component id="jButton1" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Component id="addStudentLabel" max="32767" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="studentNumberLabel" min="-2" pref="184" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="studentNumber" min="-2" pref="123" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="deleteStudentButton" pref="261" max="32767" attributes="0"/>
-                                      <Component id="jScrollPane9" alignment="1" max="32767" attributes="0"/>
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="bookTitleLabel2" min="-2" pref="117" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="filterByGradeComboBox" min="-2" pref="118" max="-2" attributes="0"/>
-                                      </Group>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="removeStudentButton" pref="261" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane9" alignment="1" max="32767" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="bookTitleLabel2" min="-2" pref="117" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="filterByGradeComboBox" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="removeStudentLabel" min="-2" pref="264" max="-2" attributes="0"/>
+                                  <Component id="removeStudentLabel" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace pref="54" max="32767" attributes="0"/>
+                      <EmptySpace pref="61" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                       <Component id="manageStudentsLabel" min="-2" pref="60" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Component id="removeStudentLabel" min="-2" pref="45" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -1578,12 +1570,11 @@
                                   <Component id="bookTitleLabel2" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jScrollPane9" min="-2" pref="137" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                              <Component id="jScrollPane9" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="addStudentLabel" min="-2" pref="45" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
@@ -1593,8 +1584,8 @@
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="gradeLabel" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                                           <Component id="gradeComboBox" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                                          <Component id="gradeLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Group type="103" alignment="0" groupAlignment="3" attributes="0">
@@ -1602,14 +1593,24 @@
                                       <Component id="firstNameLabel" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="gradeLabel" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Component id="jButton1" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="studentNumberLabel" min="-2" pref="21" max="-2" attributes="0"/>
+                                  <Component id="studentNumber" min="-2" pref="29" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
+                      <EmptySpace pref="25" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="addStudentButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
-                          <Component id="deleteStudentButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="removeStudentButton" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="96" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -1688,7 +1689,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="gradeLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Grade"/>
+                <Property name="text" type="java.lang.String" value="Student no."/>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Impact" size="18" style="0"/>
                 </Property>
@@ -1748,12 +1749,12 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="deleteStudentButton">
+            <Component class="javax.swing.JButton" name="removeStudentButton">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Delete"/>
+                <Property name="text" type="java.lang.String" value="Remove"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteStudentButtonActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeStudentButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="bookTitleLabel2">
@@ -1785,6 +1786,40 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
+            <Component class="javax.swing.JButton" name="jButton1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Generate student number"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="gradeLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Grade"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Impact" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="studentNumberLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Your student number is:"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Impact" size="18" style="0"/>
+                </Property>
+                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="0" green="0" red="0" type="rgb"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="studentNumber">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Dialog" size="15" style="0"/>
+                </Property>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel9">
@@ -1803,7 +1838,7 @@
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jScrollPane10" max="32767" attributes="0"/>
-                          <Component id="manageStudentsLabel1" pref="656" max="32767" attributes="0"/>
+                          <Component id="manageStudentsLabel1" pref="676" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
                   </Group>
@@ -1816,7 +1851,7 @@
                       <Component id="manageStudentsLabel1" min="-2" pref="60" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Component id="jScrollPane10" min="-2" pref="101" max="-2" attributes="0"/>
-                      <EmptySpace pref="320" max="32767" attributes="0"/>
+                      <EmptySpace pref="331" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>

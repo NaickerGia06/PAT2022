@@ -5,6 +5,7 @@
  */
 package UI;
 
+import BackendDatatypes.Book;
 import BackendDatatypes.Student;
 import BackendManagerClasses.BookManager;
 import BackendManagerClasses.StudentManager;
@@ -37,7 +38,7 @@ public class BookBuddy extends javax.swing.JFrame {
         usernameLabel.hide();
         StudentManager sm;
 
-        //BOOK MANAGER
+        //BOOK MANAGER CLASS
         try {
             BookManager bm = new BookManager();
             DefaultListModel model = new DefaultListModel();
@@ -63,16 +64,23 @@ public class BookBuddy extends javax.swing.JFrame {
 
         }
 
-        //STUDENT MANAGER - grade combo boxes and filter searches
+        //STUDENT MANAGER CLASS
         try {
             sm = new StudentManager();
             DefaultComboBoxModel filterGradeModel = new DefaultComboBoxModel();
             ArrayList<String> grades = sm.getGrades();
             filterGradeModel.addAll(grades);
-
-            filterByGradeComboBox.setModel(filterGradeModel);
             gradeComboBox.setModel(filterGradeModel);
-            filterGradeComboBox.setModel(filterGradeModel);
+
+            DefaultComboBoxModel filterGradeModel2 = new DefaultComboBoxModel();
+            ArrayList<String> grades2 = sm.getGrades();
+            filterGradeModel2.addAll(grades2);
+            filterByGradeComboBox.setModel(filterGradeModel2);
+
+            DefaultComboBoxModel filterGradeModel3 = new DefaultComboBoxModel();
+            ArrayList<String> grades3 = sm.getGrades();
+            filterGradeModel3.addAll(grades3);
+            filterGradeComboBox.setModel(filterGradeModel3);
 
             //populates with student names (& surnames)
             DefaultComboBoxModel studentNameModel = new DefaultComboBoxModel();
@@ -202,7 +210,6 @@ public class BookBuddy extends javax.swing.JFrame {
         moreRecommendedBooksTextArea = new javax.swing.JTextArea();
         searchGenreLabel = new javax.swing.JLabel();
         searchGenreComboBox = new javax.swing.JComboBox<>();
-        searchGenreButton = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         recommendedBooksTable = new javax.swing.JTable();
         searchFavouriteAuthorLabel = new javax.swing.JLabel();
@@ -221,9 +228,13 @@ public class BookBuddy extends javax.swing.JFrame {
         addStudentButton = new javax.swing.JButton();
         jScrollPane9 = new javax.swing.JScrollPane();
         deleteStudentList = new javax.swing.JList<>();
-        deleteStudentButton = new javax.swing.JButton();
+        removeStudentButton = new javax.swing.JButton();
         bookTitleLabel2 = new javax.swing.JLabel();
         filterByGradeComboBox = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
+        gradeLabel1 = new javax.swing.JLabel();
+        studentNumberLabel = new javax.swing.JLabel();
+        studentNumber = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         manageStudentsLabel1 = new javax.swing.JLabel();
         jScrollPane10 = new javax.swing.JScrollPane();
@@ -376,7 +387,7 @@ public class BookBuddy extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 50, Short.MAX_VALUE)
+                .addGap(0, 61, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
@@ -558,23 +569,21 @@ public class BookBuddy extends javax.swing.JFrame {
                     .addComponent(filterGradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(filterByGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(filterGenreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(1, 1, 1)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(selectStudentComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(selectStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(availableBooksToBorrowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(availableBooksToBorrowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dateBorrowedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dateBorrowedDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 13, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(takenOutDurationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(takenOutDurationComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -596,7 +605,7 @@ public class BookBuddy extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 43, Short.MAX_VALUE))
+                .addGap(0, 63, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -734,7 +743,7 @@ public class BookBuddy extends javax.swing.JFrame {
                             .addComponent(unpaidRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(markAsReturnedRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(85, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Return a book", jPanel8);
@@ -872,7 +881,7 @@ public class BookBuddy extends javax.swing.JFrame {
                             .addComponent(usernameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(confirmRatingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addContainerGap(84, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Rate a book", jPanel3);
@@ -910,7 +919,7 @@ public class BookBuddy extends javax.swing.JFrame {
             }
         });
 
-        youMightLikeLabel1.setText("You might also like:");
+        youMightLikeLabel1.setText("Comments:");
         youMightLikeLabel1.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         youMightLikeLabel1.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -918,19 +927,12 @@ public class BookBuddy extends javax.swing.JFrame {
         moreRecommendedBooksTextArea.setRows(5);
         jScrollPane6.setViewportView(moreRecommendedBooksTextArea);
 
-        searchGenreLabel.setText("Search  genre:");
+        searchGenreLabel.setText("Search  genres:");
         searchGenreLabel.setBackground(new java.awt.Color(255, 255, 255));
         searchGenreLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         searchGenreLabel.setForeground(new java.awt.Color(0, 0, 0));
 
         searchGenreComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Romance", "Non-fiction", "Drama", "Mystery", "Fiction", "Science Fiction", "Biography / Autobiography", "Lifestyle", "Horror / Thriller", "Comedy" }));
-
-        searchGenreButton.setText("Search");
-        searchGenreButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchGenreButtonActionPerformed(evt);
-            }
-        });
 
         recommendedBooksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -945,7 +947,7 @@ public class BookBuddy extends javax.swing.JFrame {
         ));
         jScrollPane7.setViewportView(recommendedBooksTable);
 
-        searchFavouriteAuthorLabel.setText("Favourite book:");
+        searchFavouriteAuthorLabel.setText("Search authors:");
         searchFavouriteAuthorLabel.setBackground(new java.awt.Color(255, 255, 255));
         searchFavouriteAuthorLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         searchFavouriteAuthorLabel.setForeground(new java.awt.Color(0, 0, 0));
@@ -972,48 +974,48 @@ public class BookBuddy extends javax.swing.JFrame {
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lookingForBooksLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(weGotYouLabel)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(searchFavouriteAuthorLabel)
+                                    .addComponent(searchFavouriteBookTitleLabel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(searchBookTitleTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                                    .addComponent(searchFavAuthorTextField))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(searchFavAuthorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(searchTitleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(26, 26, 26))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                     .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addComponent(searchGenreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(searchGenreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(searchGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(searchGenreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel7Layout.createSequentialGroup()
-                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(searchFavouriteBookTitleLabel)
-                                            .addComponent(searchFavouriteAuthorLabel))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                                .addComponent(searchFavAuthorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(searchFavAuthorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                                .addComponent(searchBookTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(searchTitleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                        .addGap(18, 18, 18)
+                                        .addComponent(searchGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(28, 28, 28))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(weGotYouLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(youMightLikeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(64, 64, 64))
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(youMightLikeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
+                    .addComponent(lookingForBooksLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(lookingForBooksLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
+                .addComponent(lookingForBooksLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(youMightLikeLabel1)
@@ -1033,12 +1035,11 @@ public class BookBuddy extends javax.swing.JFrame {
                             .addComponent(searchFavAuthorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(searchGenreButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchGenreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(42, 42, 42))
+                .addGap(69, 69, 69))
         );
 
         jTabbedPane1.addTab("Find reccomendations", jPanel7);
@@ -1074,7 +1075,7 @@ public class BookBuddy extends javax.swing.JFrame {
         surnameLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         surnameLabel.setForeground(new java.awt.Color(0, 0, 0));
 
-        gradeLabel.setText("Grade");
+        gradeLabel.setText("Student no.");
         gradeLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         gradeLabel.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -1099,10 +1100,10 @@ public class BookBuddy extends javax.swing.JFrame {
         });
         jScrollPane9.setViewportView(deleteStudentList);
 
-        deleteStudentButton.setText("Delete");
-        deleteStudentButton.addActionListener(new java.awt.event.ActionListener() {
+        removeStudentButton.setText("Remove");
+        removeStudentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteStudentButtonActionPerformed(evt);
+                removeStudentButtonActionPerformed(evt);
             }
         });
 
@@ -1117,60 +1118,75 @@ public class BookBuddy extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Generate student number");
+
+        gradeLabel1.setText("Grade");
+        gradeLabel1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        gradeLabel1.setForeground(new java.awt.Color(0, 0, 0));
+
+        studentNumberLabel.setText("Your student number is:");
+        studentNumberLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        studentNumberLabel.setForeground(new java.awt.Color(0, 0, 0));
+
+        studentNumber.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
+                .addGap(61, 61, 61)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(manageStudentsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(manageStudentsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(addStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addStudentLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(surnameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(gradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(gradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gradeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(gradeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(surnameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(addStudentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(studentNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(studentNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(deleteStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                                .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(bookTitleLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(filterByGradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(removeStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(54, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(removeStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(bookTitleLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filterByGradeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(removeStudentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
+                .addGap(45, 45, 45)
                 .addComponent(manageStudentsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(removeStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(filterByGradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(bookTitleLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12))
+                        .addComponent(jScrollPane9))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(addStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(28, 28, 28)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(41, 41, 41)
@@ -1179,19 +1195,27 @@ public class BookBuddy extends javax.swing.JFrame {
                                     .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(gradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(gradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(gradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(gradeLabel1)))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(gradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(studentNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(studentNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(96, Short.MAX_VALUE))
+                    .addComponent(removeStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(60, 60, 60))
         );
 
-        jTabbedPane1.addTab("Manage students", jPanel1);
+        jTabbedPane1.addTab("Manage Students", jPanel1);
 
         manageStudentsLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         manageStudentsLabel1.setText("Information Page / Help");
@@ -1219,7 +1243,7 @@ public class BookBuddy extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane10)
-                    .addComponent(manageStudentsLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE))
+                    .addComponent(manageStudentsLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 676, Short.MAX_VALUE))
                 .addGap(39, 39, 39))
         );
         jPanel9Layout.setVerticalGroup(
@@ -1229,7 +1253,7 @@ public class BookBuddy extends javax.swing.JFrame {
                 .addComponent(manageStudentsLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(320, Short.MAX_VALUE))
+                .addContainerGap(331, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Need some help?", jPanel9);
@@ -1238,7 +1262,7 @@ public class BookBuddy extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 884, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 904, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1257,7 +1281,22 @@ public class BookBuddy extends javax.swing.JFrame {
     }//GEN-LAST:event_isbnTextFieldActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        BookManager bm;
+        try {
+            bm = new BookManager();
+            String title = bookTitleTextField.getText();
+            String author = authorNameTextField.getText();
+            String genre = (String) genreComboBox.getSelectedItem();
+            String ISBN = isbnTextField.getText();
+            int quantity = (Integer) quantitySpinner.getValue();
 
+            Book b = new Book(title, author, genre, ISBN, quantity);
+            bm.addNewBook(b);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookButtonActionPerformed
@@ -1282,9 +1321,6 @@ public class BookBuddy extends javax.swing.JFrame {
     private void searchTitleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTitleButtonActionPerformed
     }//GEN-LAST:event_searchTitleButtonActionPerformed
 
-    private void searchGenreButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchGenreButtonActionPerformed
-    }//GEN-LAST:event_searchGenreButtonActionPerformed
-
     private void markAsReturnedRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAsReturnedRadioButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_markAsReturnedRadioButtonActionPerformed
@@ -1302,12 +1338,16 @@ public class BookBuddy extends javax.swing.JFrame {
     }//GEN-LAST:event_gradeComboBoxActionPerformed
 
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
+        StudentManager sm;
+        Student s;
         String name = firstNameTextField.getText();
         String surname = surnameTextField.getText();
         int grade = Integer.parseInt((String) (gradeComboBox.getSelectedItem()));
         try {
-            Student s = new Student(name, surname, grade);
+            sm = new StudentManager();
+            s = new Student(name, surname, grade);
             sm.addNewStudent(s);
+            System.out.println(s.toString());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -1316,9 +1356,9 @@ public class BookBuddy extends javax.swing.JFrame {
 
     }//GEN-LAST:event_addStudentButtonActionPerformed
 
-    private void deleteStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStudentButtonActionPerformed
+    private void removeStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeStudentButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteStudentButtonActionPerformed
+    }//GEN-LAST:event_removeStudentButtonActionPerformed
 
     private void selectStudentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectStudentComboBoxActionPerformed
         // TODO add your handling code here:
@@ -1474,7 +1514,6 @@ public class BookBuddy extends javax.swing.JFrame {
     private javax.swing.JTextField daysOverdueTextField;
     private javax.swing.JButton deleteBookButton;
     private javax.swing.JList<String> deleteBookList;
-    private javax.swing.JButton deleteStudentButton;
     private javax.swing.JList<String> deleteStudentList;
     private javax.swing.JComboBox<String> filterByGenreComboBox;
     private javax.swing.JComboBox<String> filterByGradeComboBox;
@@ -1487,9 +1526,11 @@ public class BookBuddy extends javax.swing.JFrame {
     private javax.swing.JLabel genreLabel;
     private javax.swing.JComboBox<String> gradeComboBox;
     private javax.swing.JLabel gradeLabel;
+    private javax.swing.JLabel gradeLabel1;
     private javax.swing.JLabel highestRatedBooksLabel;
     private javax.swing.JTextArea highestRatedBooksTextArea;
     private javax.swing.JTextField isbnTextField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -1527,6 +1568,7 @@ public class BookBuddy extends javax.swing.JFrame {
     private javax.swing.JLabel rateBookLabel;
     private javax.swing.JTable recommendedBooksTable;
     private javax.swing.JLabel removeBookLabel;
+    private javax.swing.JButton removeStudentButton;
     private javax.swing.JLabel removeStudentLabel;
     private javax.swing.JLabel returnABookLabel;
     private javax.swing.JComboBox<String> returnedByComboBox;
@@ -1536,7 +1578,6 @@ public class BookBuddy extends javax.swing.JFrame {
     private javax.swing.JTextField searchFavAuthorTextField;
     private javax.swing.JLabel searchFavouriteAuthorLabel;
     private javax.swing.JLabel searchFavouriteBookTitleLabel;
-    private javax.swing.JButton searchGenreButton;
     private javax.swing.JComboBox<String> searchGenreComboBox;
     private javax.swing.JLabel searchGenreLabel;
     private javax.swing.JButton searchTitleButton;
@@ -1544,6 +1585,8 @@ public class BookBuddy extends javax.swing.JFrame {
     private javax.swing.JSpinner selectRatingSpinner;
     private javax.swing.JComboBox<String> selectStudentComboBox;
     private javax.swing.JLabel selectStudentLabel;
+    private javax.swing.JLabel studentNumber;
+    private javax.swing.JLabel studentNumberLabel;
     private javax.swing.JLabel surnameLabel;
     private javax.swing.JTextField surnameTextField;
     private javax.swing.JLabel takenOutBooksLabel;

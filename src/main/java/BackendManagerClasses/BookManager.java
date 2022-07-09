@@ -80,6 +80,23 @@ public class BookManager {
         return booksFromGenre;
     }
 
+    public void addNewBook(Book b) throws SQLException, ClassNotFoundException {
+        DB db = new DB();
+        ResultSet rs = db.query("SELECT genreID FROM genres\n"
+                + "WHERE genre = '" + b.getGenre() + "';");
+
+        int genreID = 0;
+        while (rs.next()) {
+            genreID = rs.getInt(1);
+        }
+
+        String query = "INSERT INTO books (title, author, genreID, ISBN, quantity) "
+                + "VALUES ('" + b.getTitle() + "','" + b.getAuthorName() + "','" + genreID + "','" + b.getISBN() + "','" + b.getQuantity() + "');";
+
+        db.update(query);
+
+    }
+
     public String toString() {
         String out = "";
 
@@ -90,5 +107,5 @@ public class BookManager {
         return out;
     }
 
-    //Method for getting book names based on the genre, author and favourite book selected
+    //build up this method. First get array list of books, populate table with arrays
 }

@@ -55,13 +55,12 @@ public class StudentManager {
 
     //adds a new student to the database (studdents table)
     public void addNewStudent(Student s) throws SQLException, ClassNotFoundException {
-        String query = "INSERT INTO tblcandidates (studentID, firstName, surname, grade) "
-                + "VALUES ('" + s.getName() + "','" + s.getSurname() + "','" + s.getGrade() + "');";
         DB db = new DB();
-        db.query(query);
+        String query = "INSERT INTO students (firstName, surname, grade) "
+                + "VALUES ('" + s.getName() + "','" + s.getSurname() + "','" + s.getGrade() + "');";
 
-        //if successful add to the array
-        //How to add to arrayList and not array?
+        db.update(query);
+
     }
 
     //gets arrayList of students names and surnames

@@ -80,6 +80,7 @@ public class BookManager {
         return booksFromGenre;
     }
 
+    //CONVERTS GENRE TO GENREID AND ADDS A NEW BOOK TO THE BOOKS TABLE
     public void addNewBook(Book b) throws SQLException, ClassNotFoundException {
         DB db = new DB();
         ResultSet rs = db.query("SELECT genreID FROM genres\n"
@@ -94,9 +95,9 @@ public class BookManager {
                 + "VALUES ('" + b.getTitle() + "','" + b.getAuthorName() + "','" + genreID + "','" + b.getISBN() + "','" + b.getQuantity() + "');";
 
         db.update(query);
-
     }
 
+    //RETURNS A STRING REPRESENTATION OF EVERY BOOK'S FIELDS (INFORMATION)
     public String toString() {
         String out = "";
 
@@ -107,5 +108,43 @@ public class BookManager {
         return out;
     }
 
-    //build up this method. First get array list of books, populate table with arrays
+    //build up this method. First get array list of books, populate table with arrays - Find recommended functions.
+    public Object[][] makeBooksFromGenreTable(String gen) throws ClassNotFoundException, SQLException {
+        //create an arrayList of books based on genre
+        ArrayList<String> booksFromGenre = new ArrayList<>();
+
+        //write SQL Query to join 3 tables and get values
+        DB db = new DB();
+        ResultSet rs = db.query("SELECT title, author, genres.genre, rating, quantity \n"
+                + "FROM books, genres, ratings\n"
+                + "WHERE (books.genreID = genres.genreID AND books.bookID = ratings.bookID)"
+                + "AND genre = '" + gen + "';");
+
+        String title = "";
+        String author = "";
+        String genre = "";
+        int rating = 0;
+        int quantity = 0;
+
+        while (rs.next()) {
+            title = rs.getString(1);
+            author = rs.getString(2);
+            genre = rs.getString(3);
+            rating = rs.getInt(4);
+            quantity = rs.getInt(5);
+        }
+
+        //Make table from values in the arrayList
+        Object[][] genreTable = new Object[books.size()][5];
+
+        for (int row = 0; row < books.size(); row++) {
+            genreTable[row][0] = title;
+            genreTable[row][1] = author;
+            genreTable[row][2] = genre;
+            genreTable[row][3] = rating;
+            genreTable[row][4] = quantity;
+        }
+
+        return genreTable;
+    }
 }

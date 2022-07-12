@@ -924,6 +924,7 @@ public class BookBuddy extends javax.swing.JFrame {
         youMightLikeLabel1.setForeground(new java.awt.Color(0, 0, 0));
 
         moreRecommendedBooksTextArea.setColumns(20);
+        moreRecommendedBooksTextArea.setEditable(false);
         moreRecommendedBooksTextArea.setRows(5);
         jScrollPane6.setViewportView(moreRecommendedBooksTextArea);
 
@@ -933,6 +934,11 @@ public class BookBuddy extends javax.swing.JFrame {
         searchGenreLabel.setForeground(new java.awt.Color(0, 0, 0));
 
         searchGenreComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Romance", "Non-fiction", "Drama", "Mystery", "Fiction", "Science Fiction", "Biography / Autobiography", "Lifestyle", "Horror / Thriller", "Comedy" }));
+        searchGenreComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchGenreComboBoxActionPerformed(evt);
+            }
+        });
 
         recommendedBooksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1005,9 +1011,9 @@ public class BookBuddy extends javax.swing.JFrame {
                                 .addComponent(weGotYouLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(youMightLikeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18))
+                            .addComponent(youMightLikeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26))
                     .addComponent(lookingForBooksLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 723, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1292,6 +1298,7 @@ public class BookBuddy extends javax.swing.JFrame {
 
             Book b = new Book(title, author, genre, ISBN, quantity);
             bm.addNewBook(b);
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -1347,7 +1354,7 @@ public class BookBuddy extends javax.swing.JFrame {
             sm = new StudentManager();
             s = new Student(name, surname, grade);
             sm.addNewStudent(s);
-            System.out.println(s.toString());
+
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -1447,6 +1454,30 @@ public class BookBuddy extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_filterGradeComboBoxActionPerformed
+
+    private void searchGenreComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchGenreComboBoxActionPerformed
+        BookManager bm;
+        try {
+            bm = new BookManager();
+            String[] bookInfoColNames = new String[6];
+            bookInfoColNames[0] = "Title";
+            bookInfoColNames[1] = "Author";
+            bookInfoColNames[2] = "Genre";
+            bookInfoColNames[3] = "Rating";
+            bookInfoColNames[4] = "Available books";
+
+            // gets data and populates table model, then sets table to table model
+            String gen = (String) searchGenreComboBox.getSelectedItem();
+            Object[][] data = bm.makeBooksFromGenreTable(gen);
+            DefaultTableModel bookInfoTableModel = new DefaultTableModel(data, bookInfoColNames);
+            recommendedBooksTable.setModel(bookInfoTableModel);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_searchGenreComboBoxActionPerformed
 
     /**
      * @param args the command line arguments

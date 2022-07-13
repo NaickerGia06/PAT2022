@@ -64,6 +64,22 @@ public class BookManager {
         return genres;
     }
 
+    public Object[][] makeBooksTable() {
+
+        Object[][] booksTable = new Object[books.size()][5];
+
+        for (int row = 0; row < books.size(); row++) {
+
+            booksTable[row][0] = books.get(row).getTitle();
+            booksTable[row][1] = books.get(row).getAuthorName();
+            booksTable[row][2] = books.get(row).getGenre();
+            booksTable[row][3] = books.get(row).getISBN();
+            booksTable[row][4] = books.get(row).getQuantity();
+        }
+
+        return booksTable;
+    }
+
     //COMPARES GENRE TO GENRE OF BOOK AT A SPECIFIC POSITION IN THE ARRAYLIST
     public ArrayList<String> getBooksFromGenre(String gen) throws ClassNotFoundException, SQLException {
         ArrayList<String> booksFromGenre;

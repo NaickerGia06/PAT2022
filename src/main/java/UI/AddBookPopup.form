@@ -40,28 +40,34 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="genreLabel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="ISBNLabel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="authorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="bookTitleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="quantityLabel" alignment="1" min="-2" pref="79" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="genreLabel" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ISBNLabel" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="authorLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="bookTitleLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="quantityLabel" alignment="1" min="-2" pref="79" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="genreComboBox" alignment="0" pref="265" max="32767" attributes="0"/>
+                                  <Component id="authorNameTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="quantitySpinner" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
+                                  <Component id="bookTitleTextField" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="isbnTextField" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="genreComboBox" alignment="0" pref="265" max="32767" attributes="0"/>
-                              <Component id="authorNameTextField" alignment="0" max="32767" attributes="0"/>
-                              <Component id="quantitySpinner" alignment="0" min="-2" pref="112" max="-2" attributes="0"/>
-                              <Component id="bookTitleTextField" alignment="0" max="32767" attributes="0"/>
-                              <Component id="isbnTextField" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="addBookLabel" alignment="0" max="32767" attributes="0"/>
                       </Group>
-                      <Component id="addButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="addBookLabel" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="addButton" min="-2" pref="288" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="closeButton" min="-2" pref="66" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace pref="33" max="32767" attributes="0"/>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -100,7 +106,10 @@
                       <Component id="quantityLabel" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                  <Component id="addButton" min="-2" pref="35" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Component id="closeButton" max="32767" attributes="0"/>
+                      <Component id="addButton" pref="35" max="32767" attributes="0"/>
+                  </Group>
                   <EmptySpace pref="34" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -142,9 +151,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="bookTitleTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bookTitleTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="authorLabel">
           <Properties>
@@ -181,9 +187,6 @@
               </StringArray>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genreComboBoxActionPerformed"/>
-          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
@@ -200,9 +203,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="isbnTextField">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="isbnTextFieldActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="quantityLabel">
           <Properties>
@@ -216,6 +216,14 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JSpinner" name="quantitySpinner">
+        </Component>
+        <Component class="javax.swing.JButton" name="closeButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Close"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

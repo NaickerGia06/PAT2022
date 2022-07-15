@@ -11,11 +11,13 @@ import BackendManagerClasses.BookManager;
 import BackendManagerClasses.StudentManager;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -35,40 +37,24 @@ public class BookBuddy extends javax.swing.JFrame {
         setLocationRelativeTo(null);
 
         //BOOK MANAGER CLASS
-        try {
-            bm = new BookManager();
+        //populates GENRE COMBOBOX
+        populateGenreComboBox();
 
-            DefaultListModel listModel = new DefaultListModel();
-            ArrayList<String> bookTitles = bm.getBookNames();
-            listModel.addAll(bookTitles);
-            //availableBooksToBorrowList.setModel(listModel);
+        //populates BOOKS TABLE during runTime
+        updatesBookTableInManageBooksScreen();
 
-            //GenreComboBoxes
-            DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
-            ArrayList<String> genres = bm.getGenres();
-            comboModel.addAll(genres);
-            filterByGenreComboBox.setModel(comboModel);
-        } catch (ClassNotFoundException e) {
+        //populates LIST with book titles
+        populateListWithBookTitlesModel();
 
-        } catch (SQLException e) {
-
-        }
-
-        //populates table during runTime
-        setsBookTableInManageBooksScreen();
+        //populates borrowBooksTableWhenRun
+        populateBorrowBooksTableOnRun();
 
         //STUDENT MANAGER CLASS
-        try {
+        try { // make these into their own method later
             sm = new StudentManager();
             DefaultComboBoxModel filterGradeModel = new DefaultComboBoxModel();
             ArrayList<String> grades = sm.getGrades();
             filterGradeModel.addAll(grades);
-            gradeComboBox.setModel(filterGradeModel);
-
-            DefaultComboBoxModel filterGradeModel2 = new DefaultComboBoxModel();
-            ArrayList<String> grades2 = sm.getGrades();
-            filterGradeModel2.addAll(grades2);
-            filterByGradeComboBox.setModel(filterGradeModel2);
 
             DefaultComboBoxModel filterGradeModel3 = new DefaultComboBoxModel();
             ArrayList<String> grades3 = sm.getGrades();
@@ -86,28 +72,14 @@ public class BookBuddy extends javax.swing.JFrame {
 
         }
 
-        //POPULATES TABLE
-        try {
-            // creates a student array object
-            sm = new StudentManager();
-            String[] coloumNamesForStudentTbl = new String[3];
-            coloumNamesForStudentTbl[0] = "Name";
-            coloumNamesForStudentTbl[1] = "Surname";
-            coloumNamesForStudentTbl[2] = "Grade";
-
-            // gets data and populates table model, then sets table to table model
-            Object[][] studentData = sm.makeStudentTable();
-            DefaultTableModel bookModel = new DefaultTableModel(studentData, coloumNamesForStudentTbl);
-            testTable.setModel(bookModel);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        //populates STUDENTS TABLE
+        populateStudentsTable();
 
     }
 
-    public void setsBookTableInManageBooksScreen() throws ClassNotFoundException, SQLException {
+    //BOOKS
+    public void updatesBookTableInManageBooksScreen() throws ClassNotFoundException, SQLException {
+
         //Populates Book Table
         String[] coloumNamesForBooksTbl = new String[5];
         coloumNamesForBooksTbl[0] = "Title";
@@ -117,9 +89,50 @@ public class BookBuddy extends javax.swing.JFrame {
         coloumNamesForBooksTbl[4] = "Quantity";
 
         // gets data and populates table model, then sets table to table model
-        Object[][] booksData = bm.makeBooksTable();
+        Object[][] booksData = bm.makeBooksTableForBookManagement();
         DefaultTableModel booksModel = new DefaultTableModel(booksData, coloumNamesForBooksTbl);
         booksTable.setModel(booksModel);
+    }
+
+    public void populateBorrowBooksTableOnRun() throws ClassNotFoundException, SQLException {
+        //Populates Book Table
+        String[] coloumNamesForBorrowBooksTbl = new String[3];
+        coloumNamesForBorrowBooksTbl[0] = "Title";
+        coloumNamesForBorrowBooksTbl[1] = "Author";
+        coloumNamesForBorrowBooksTbl[2] = "Quantity";
+
+        // gets data and populates table model, then sets table to table model
+        Object[][] booksData = bm.makeBorrowBooksTableWhenRun();
+        DefaultTableModel booksModel = new DefaultTableModel(booksData, coloumNamesForBorrowBooksTbl);
+        borrowBooksTable.setModel(booksModel);
+    }
+
+    public void populateListWithBookTitlesModel() throws ClassNotFoundException, SQLException {
+        bm = new BookManager();
+        DefaultListModel listModel = new DefaultListModel();
+        ArrayList<String> bookTitles = bm.getBookNames();
+        listModel.addAll(bookTitles);
+    }
+
+    public void populateGenreComboBox() throws ClassNotFoundException, SQLException {
+        bm = new BookManager();
+        DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
+        ArrayList<String> genres = bm.getGenres();
+        comboModel.addAll(genres);
+    }
+
+    //STUDENTS
+    public void populateStudentsTable() throws ClassNotFoundException, SQLException {
+        sm = new StudentManager();
+        String[] coloumNamesForStudentTbl = new String[3];
+        coloumNamesForStudentTbl[0] = "Name";
+        coloumNamesForStudentTbl[1] = "Surname";
+        coloumNamesForStudentTbl[2] = "Grade";
+
+        // gets data and populates table model, then sets table to table model
+        Object[][] studentData = sm.makeStudentTable();
+        DefaultTableModel bookModel = new DefaultTableModel(studentData, coloumNamesForStudentTbl);
+        studentsTable.setModel(bookModel);
     }
 
     /**
@@ -139,9 +152,9 @@ public class BookBuddy extends javax.swing.JFrame {
         manageBooksLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         booksTable = new javax.swing.JTable();
-        editButton = new javax.swing.JButton();
-        addButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
+        editBookButton = new javax.swing.JButton();
+        addBookButton = new javax.swing.JButton();
+        deleteBookButton = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         filterByGradeLabel = new javax.swing.JLabel();
@@ -152,11 +165,14 @@ public class BookBuddy extends javax.swing.JFrame {
         filterGradeComboBox = new javax.swing.JComboBox<>();
         selectStudentLabel = new javax.swing.JLabel();
         selectStudentComboBox = new javax.swing.JComboBox<>();
-        filterByGenreComboBox = new javax.swing.JComboBox<>();
-        filterGenreLabel = new javax.swing.JLabel();
-        jScrollPane11 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        searchForBooksLabel = new javax.swing.JLabel();
         dateBorrowedLabel1 = new javax.swing.JLabel();
+        dateBorrowedErrorMessageLabel = new javax.swing.JLabel();
+        noticeLabel1 = new javax.swing.JLabel();
+        noticeLabel2 = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        borrowBooksTable = new javax.swing.JTable();
+        searchTitleTextField = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
         returnABookLabel = new javax.swing.JLabel();
         takenOutBooksLabel = new javax.swing.JLabel();
@@ -166,36 +182,18 @@ public class BookBuddy extends javax.swing.JFrame {
         returnedByLabel = new javax.swing.JLabel();
         dateReturnedDatePicker = new com.github.lgooddatepicker.components.DatePicker();
         amountOwedLabel = new javax.swing.JLabel();
-        markAsReturnedRadioButton = new javax.swing.JButton();
+        markAsReturnedButton = new javax.swing.JButton();
         amountOwedTextField = new javax.swing.JTextField();
         daysOverdueLabel = new javax.swing.JLabel();
         daysOverdueTextField = new javax.swing.JTextField();
         returnedByComboBox = new javax.swing.JComboBox<>();
-        dateBorrowedLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        rateBookLabel = new javax.swing.JLabel();
-        selectRatingLabel = new javax.swing.JLabel();
-        selectRatingSpinner = new javax.swing.JSpinner();
-        commentLabel = new javax.swing.JLabel();
-        commentTextField = new javax.swing.JTextField();
-        confirmRatingButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         manageStudentsLabel = new javax.swing.JLabel();
-        addStudentLabel = new javax.swing.JLabel();
-        removeStudentLabel = new javax.swing.JLabel();
-        firstNameLabel = new javax.swing.JLabel();
-        firstNameTextField = new javax.swing.JTextField();
-        surnameLabel = new javax.swing.JLabel();
-        surnameTextField = new javax.swing.JTextField();
-        gradeComboBox = new javax.swing.JComboBox<>();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        studentsTable = new javax.swing.JTable();
         addStudentButton = new javax.swing.JButton();
-        jScrollPane9 = new javax.swing.JScrollPane();
-        deleteStudentList = new javax.swing.JList<>();
+        editStudentButton = new javax.swing.JButton();
         removeStudentButton = new javax.swing.JButton();
-        bookTitleLabel2 = new javax.swing.JLabel();
-        filterByGradeComboBox = new javax.swing.JComboBox<>();
-        gradeLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         lookingForBooksLabel = new javax.swing.JLabel();
         weGotYouLabel = new javax.swing.JLabel();
@@ -217,8 +215,6 @@ public class BookBuddy extends javax.swing.JFrame {
         highestRatedBooksTextArea1 = new javax.swing.JTextArea();
         jPanel9 = new javax.swing.JPanel();
         manageStudentsLabel1 = new javax.swing.JLabel();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        testTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -263,19 +259,24 @@ public class BookBuddy extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(booksTable);
 
-        editButton.setText("Edit");
-
-        addButton.setText("Add");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        editBookButton.setText("Edit");
+        editBookButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                editBookButtonActionPerformed(evt);
             }
         });
 
-        deleteButton.setText("Delete");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+        addBookButton.setText("Add");
+        addBookButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
+                addBookButtonActionPerformed(evt);
+            }
+        });
+
+        deleteBookButton.setText("Delete");
+        deleteBookButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBookButtonActionPerformed(evt);
             }
         });
 
@@ -287,11 +288,11 @@ public class BookBuddy extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(addBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(manageBooksLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -301,7 +302,7 @@ public class BookBuddy extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 74, Short.MAX_VALUE)
+                .addGap(0, 65, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
@@ -310,9 +311,9 @@ public class BookBuddy extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(editBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addBookButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -334,7 +335,7 @@ public class BookBuddy extends javax.swing.JFrame {
             }
         });
 
-        availableBooksToBorrowLabel.setText("Books that are available to borrow:");
+        availableBooksToBorrowLabel.setText("Please select a book to borrow:");
         availableBooksToBorrowLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         availableBooksToBorrowLabel.setForeground(new java.awt.Color(0, 0, 0));
 
@@ -350,24 +351,28 @@ public class BookBuddy extends javax.swing.JFrame {
         selectStudentLabel.setForeground(new java.awt.Color(0, 0, 0));
 
         selectStudentComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        selectStudentComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                selectStudentComboBoxActionPerformed(evt);
-            }
-        });
 
-        filterByGenreComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        filterByGenreComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filterByGenreComboBoxActionPerformed(evt);
-            }
-        });
+        searchForBooksLabel.setText("Search for books:");
+        searchForBooksLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
+        searchForBooksLabel.setForeground(new java.awt.Color(0, 0, 0));
 
-        filterGenreLabel.setText("Filter by genre");
-        filterGenreLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
-        filterGenreLabel.setForeground(new java.awt.Color(0, 0, 0));
+        dateBorrowedLabel1.setText("Date Borrowed");
+        dateBorrowedLabel1.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
+        dateBorrowedLabel1.setForeground(new java.awt.Color(0, 0, 0));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        dateBorrowedErrorMessageLabel.setForeground(new java.awt.Color(255, 51, 51));
+        dateBorrowedErrorMessageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        dateBorrowedErrorMessageLabel.setText("This is for error messages");
+
+        noticeLabel1.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
+        noticeLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        noticeLabel1.setText("Please note that you may only borrow a book");
+
+        noticeLabel2.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
+        noticeLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        noticeLabel2.setText("for 2 weeks. Fines will be charged on overdue books.");
+
+        borrowBooksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -378,56 +383,74 @@ public class BookBuddy extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane11.setViewportView(jTable1);
+        jScrollPane3.setViewportView(borrowBooksTable);
 
-        dateBorrowedLabel1.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
-        dateBorrowedLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        dateBorrowedLabel1.setText("Date Borrowed");
+        searchTitleTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchTitleTextFieldActionPerformed(evt);
+            }
+        });
+        searchTitleTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                searchTitleTextFieldKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                searchTitleTextFieldKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(filterGenreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(filterByGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(availableBooksToBorrowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(52, 52, 52)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(filterByGradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(borrowBookLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(selectStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateBorrowedLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(selectStudentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(filterGradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateBorrowedDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(markAsBorrowedButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(53, 53, 53))
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(borrowBookLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 635, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(searchForBooksLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(15, 15, 15)
+                                .addComponent(searchTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(availableBooksToBorrowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(noticeLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(noticeLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(markAsBorrowedButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dateBorrowedErrorMessageLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(filterByGradeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(selectStudentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dateBorrowedLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(selectStudentComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(filterGradeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel6Layout.createSequentialGroup()
+                                        .addComponent(dateBorrowedDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(94, 94, 94)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(46, 46, 46)
+                .addGap(42, 42, 42)
                 .addComponent(borrowBookLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(filterByGradeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(filterGradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(selectStudentComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(selectStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -435,17 +458,23 @@ public class BookBuddy extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dateBorrowedDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(dateBorrowedLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addComponent(markAsBorrowedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26)
+                        .addComponent(dateBorrowedErrorMessageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(markAsBorrowedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(noticeLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(noticeLabel2))
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(filterByGenreComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(filterGenreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(24, 24, 24)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(searchForBooksLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchTitleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(20, 20, 20)
                         .addComponent(availableBooksToBorrowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(100, 100, 100))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -491,10 +520,10 @@ public class BookBuddy extends javax.swing.JFrame {
         amountOwedLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         amountOwedLabel.setForeground(new java.awt.Color(0, 0, 0));
 
-        markAsReturnedRadioButton.setText("Mark as returned");
-        markAsReturnedRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        markAsReturnedButton.setText("Mark as returned");
+        markAsReturnedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                markAsReturnedRadioButtonActionPerformed(evt);
+                markAsReturnedButtonActionPerformed(evt);
             }
         });
 
@@ -508,61 +537,47 @@ public class BookBuddy extends javax.swing.JFrame {
 
         returnedByComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        dateBorrowedLabel2.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
-        dateBorrowedLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        dateBorrowedLabel2.setText("Would you like to rate this book?");
-
-        jButton3.setText("Leave a rating or comment");
-
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(returnABookLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(takenOutBooksLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                            .addComponent(jScrollPane8))
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(takenOutBooksLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(returnedByLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateReturnedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(markAsReturnedButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGap(29, 29, 29)
                                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(returnedByLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(dateReturnedLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(markAsReturnedRadioButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel8Layout.createSequentialGroup()
-                                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(jPanel8Layout.createSequentialGroup()
-                                                    .addComponent(amountOwedLabel)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                                                    .addComponent(daysOverdueLabel)
-                                                    .addGap(61, 61, 61)))
-                                            .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(daysOverdueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(amountOwedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                     .addGroup(jPanel8Layout.createSequentialGroup()
-                                        .addGap(149, 149, 149)
-                                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(returnedByComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(dateReturnedDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(amountOwedLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                                        .addComponent(daysOverdueLabel)
+                                        .addGap(61, 61, 61)))
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(daysOverdueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(amountOwedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel8Layout.createSequentialGroup()
-                                .addGap(96, 96, 96)
-                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dateBorrowedLabel2))))))
-                .addContainerGap(111, Short.MAX_VALUE))
+                                .addGap(149, 149, 149)
+                                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(returnedByComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dateReturnedDatePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGap(60, 60, 60))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(45, 45, 45)
                 .addComponent(returnABookLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -573,134 +588,42 @@ public class BookBuddy extends javax.swing.JFrame {
                             .addComponent(returnedByLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(returnedByComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(daysOverdueLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(daysOverdueTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(amountOwedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(amountOwedTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(markAsReturnedRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(30, 30, 30)
-                        .addComponent(dateBorrowedLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addComponent(markAsReturnedButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(122, 122, 122))
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(takenOutBooksLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane8)))
-                .addGap(76, 76, 76))
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 35, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Return a book", jPanel8);
-
-        rateBookLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        rateBookLabel.setText("Rate A Book / Leave A Comment");
-        rateBookLabel.setFont(new java.awt.Font("Impact", 0, 50)); // NOI18N
-        rateBookLabel.setForeground(new java.awt.Color(0, 0, 0));
-
-        selectRatingLabel.setText("Select a value from 0 - 5:");
-        selectRatingLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
-        selectRatingLabel.setForeground(new java.awt.Color(0, 0, 0));
-
-        selectRatingSpinner.setModel(new javax.swing.SpinnerNumberModel(0, 0, 5, 1));
-        selectRatingSpinner.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
-
-        commentLabel.setText("Leave a comment?");
-        commentLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
-        commentLabel.setForeground(new java.awt.Color(0, 0, 0));
-
-        commentTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                commentTextFieldActionPerformed(evt);
-            }
-        });
-
-        confirmRatingButton.setText("Confirm rating");
-        confirmRatingButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                confirmRatingButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rateBookLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 664, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(332, 332, 332)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(selectRatingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(commentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(selectRatingSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(commentTextField)
-                                .addGap(2, 2, 2))
-                            .addComponent(confirmRatingButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(39, 39, 39))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(rateBookLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(selectRatingLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(selectRatingSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(commentLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(commentTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(101, 101, 101)
-                .addComponent(confirmRatingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Rate a book", jPanel3);
 
         manageStudentsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         manageStudentsLabel.setText("Manage Students");
         manageStudentsLabel.setFont(new java.awt.Font("Impact", 0, 50)); // NOI18N
         manageStudentsLabel.setForeground(new java.awt.Color(0, 0, 0));
 
-        addStudentLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addStudentLabel.setText("Add A Student");
-        addStudentLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        addStudentLabel.setFont(new java.awt.Font("Impact", 0, 30)); // NOI18N
-        addStudentLabel.setForeground(new java.awt.Color(0, 0, 0));
-
-        removeStudentLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        removeStudentLabel.setText("Remove A Student");
-        removeStudentLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        removeStudentLabel.setFont(new java.awt.Font("Impact", 0, 30)); // NOI18N
-        removeStudentLabel.setForeground(new java.awt.Color(0, 0, 0));
-
-        firstNameLabel.setText("First Name");
-        firstNameLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        firstNameLabel.setForeground(new java.awt.Color(0, 0, 0));
-
-        firstNameTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                firstNameTextFieldActionPerformed(evt);
+        studentsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
-        });
-
-        surnameLabel.setText("Surname");
-        surnameLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        surnameLabel.setForeground(new java.awt.Color(0, 0, 0));
-
-        gradeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gradeComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gradeComboBoxActionPerformed(evt);
-            }
-        });
+        ));
+        jScrollPane10.setViewportView(studentsTable);
 
         addStudentButton.setText("Add");
         addStudentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -709,12 +632,7 @@ public class BookBuddy extends javax.swing.JFrame {
             }
         });
 
-        deleteStudentList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane9.setViewportView(deleteStudentList);
+        editStudentButton.setText("Edit");
 
         removeStudentButton.setText("Remove");
         removeStudentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -723,90 +641,41 @@ public class BookBuddy extends javax.swing.JFrame {
             }
         });
 
-        bookTitleLabel2.setText("Filter by grade:");
-        bookTitleLabel2.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        bookTitleLabel2.setForeground(new java.awt.Color(0, 0, 0));
-
-        filterByGradeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        filterByGradeComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filterByGradeComboBoxActionPerformed(evt);
-            }
-        });
-
-        gradeLabel1.setText("Grade");
-        gradeLabel1.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
-        gradeLabel1.setForeground(new java.awt.Color(0, 0, 0));
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(manageStudentsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(addStudentLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(addStudentButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(surnameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(gradeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(gradeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(surnameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(firstNameTextField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))))
-                        .addGap(38, 38, 38)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(removeStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
-                            .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(bookTitleLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(filterByGradeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(removeStudentLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(84, Short.MAX_VALUE))
+                        .addGap(254, 254, 254)
+                        .addComponent(editStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addComponent(removeStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))
+                    .addComponent(manageStudentsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(manageStudentsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(removeStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(filterByGradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bookTitleLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(addStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(41, 41, 41)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(surnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(surnameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(gradeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(gradeLabel1)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(firstNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
-                .addComponent(removeStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
+                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Manage Students", jPanel1);
@@ -826,23 +695,7 @@ public class BookBuddy extends javax.swing.JFrame {
         searchFavouriteBookTitleLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         searchFavouriteBookTitleLabel.setForeground(new java.awt.Color(0, 0, 0));
 
-        searchBookTitleTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBookTitleTextFieldActionPerformed(evt);
-            }
-        });
-        searchBookTitleTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                searchBookTitleTextFieldKeyPressed(evt);
-            }
-        });
-
         searchTitleButton.setText("Search");
-        searchTitleButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchTitleButtonActionPerformed(evt);
-            }
-        });
 
         youMightLikeLabel1.setText("Comments:");
         youMightLikeLabel1.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
@@ -883,17 +736,6 @@ public class BookBuddy extends javax.swing.JFrame {
         searchFavouriteAuthorLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         searchFavouriteAuthorLabel.setForeground(new java.awt.Color(0, 0, 0));
 
-        searchFavAuthorTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchFavAuthorTextFieldActionPerformed(evt);
-            }
-        });
-        searchFavAuthorTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                searchFavAuthorTextFieldKeyPressed(evt);
-            }
-        });
-
         searchFavAuthorButton.setText("Search");
         searchFavAuthorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -901,9 +743,9 @@ public class BookBuddy extends javax.swing.JFrame {
             }
         });
 
+        highestRatedBooksLabel1.setText("HIghest Rated Books:");
         highestRatedBooksLabel1.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
         highestRatedBooksLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        highestRatedBooksLabel1.setText("HIghest Rated Books:");
 
         highestRatedBooksTextArea1.setColumns(20);
         highestRatedBooksTextArea1.setEditable(false);
@@ -955,8 +797,8 @@ public class BookBuddy extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(53, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
                 .addComponent(lookingForBooksLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -986,7 +828,7 @@ public class BookBuddy extends javax.swing.JFrame {
                         .addComponent(highestRatedBooksLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(29, 29, 29))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Explore", jPanel7);
@@ -996,38 +838,21 @@ public class BookBuddy extends javax.swing.JFrame {
         manageStudentsLabel1.setFont(new java.awt.Font("Impact", 0, 50)); // NOI18N
         manageStudentsLabel1.setForeground(new java.awt.Color(0, 0, 0));
 
-        testTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane10.setViewportView(testTable);
-
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane10)
-                    .addComponent(manageStudentsLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE))
+                .addComponent(manageStudentsLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 699, Short.MAX_VALUE)
                 .addGap(39, 39, 39))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(51, 51, 51)
                 .addComponent(manageStudentsLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(344, Short.MAX_VALUE))
+                .addContainerGap(442, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Need some help?", jPanel9);
@@ -1040,106 +865,26 @@ public class BookBuddy extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void markAsBorrowedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAsBorrowedButtonActionPerformed
-        // TODO add your handling code here:
+        int selectedBookIndex = borrowBooksTable.getSelectedRow();
+        String studentFullName = (String) selectStudentComboBox.getSelectedItem();
+        LocalDate date = dateBorrowedDatePicker.getDate();
+
+        //calls method in bookManager which adds a book to the borrowed table
+        bm.addToBorrowedBooksTable(selectedBookIndex, studentFullName, date);
     }//GEN-LAST:event_markAsBorrowedButtonActionPerformed
-
-    private void confirmRatingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmRatingButtonActionPerformed
-    }//GEN-LAST:event_confirmRatingButtonActionPerformed
-
-    private void searchBookTitleTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBookTitleTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchBookTitleTextFieldActionPerformed
-
-    private void searchBookTitleTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchBookTitleTextFieldKeyPressed
-
-    }//GEN-LAST:event_searchBookTitleTextFieldKeyPressed
-
-    private void searchTitleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTitleButtonActionPerformed
-    }//GEN-LAST:event_searchTitleButtonActionPerformed
-
-    private void markAsReturnedRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAsReturnedRadioButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_markAsReturnedRadioButtonActionPerformed
-
-    private void firstNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_firstNameTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_firstNameTextFieldActionPerformed
-
-    private void gradeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gradeComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_gradeComboBoxActionPerformed
-
-    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
-        Student s;
-        String name = firstNameTextField.getText();
-        String surname = surnameTextField.getText();
-        int grade = Integer.parseInt((String) (gradeComboBox.getSelectedItem()));
-        try {
-            s = new Student(name, surname, grade);
-            sm.addNewStudent(s);
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_addStudentButtonActionPerformed
-
-    private void removeStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeStudentButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_removeStudentButtonActionPerformed
-
-    private void selectStudentComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectStudentComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_selectStudentComboBoxActionPerformed
-
-    private void commentTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_commentTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_commentTextFieldActionPerformed
-
-    private void filterByGenreComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterByGenreComboBoxActionPerformed
-        try {
-            if ((String) filterByGenreComboBox.getSelectedItem() == "") {
-                DefaultListModel listModel = new DefaultListModel();
-                ArrayList<String> bookTitles = bm.getBookNames();
-                listModel.addAll(bookTitles);
-                //availableBooksToBorrowList.setModel(listModel);
-            } else {
-                DefaultListModel listModel2 = new DefaultListModel();
-                ArrayList<String> bookTitles2 = bm.getBooksFromGenre((String) filterByGenreComboBox.getSelectedItem());
-                listModel2.addAll(bookTitles2);
-                //availableBooksToBorrowList.setModel(listModel2);
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_filterByGenreComboBoxActionPerformed
-
-    private void searchFavAuthorTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFavAuthorTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchFavAuthorTextFieldActionPerformed
-
-    private void searchFavAuthorTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchFavAuthorTextFieldKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchFavAuthorTextFieldKeyPressed
 
     private void searchFavAuthorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchFavAuthorButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchFavAuthorButtonActionPerformed
-
-    private void filterByGradeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterByGradeComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_filterByGradeComboBoxActionPerformed
 
     private void filterGradeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterGradeComboBoxActionPerformed
         try {
@@ -1187,7 +932,8 @@ public class BookBuddy extends javax.swing.JFrame {
 
     }//GEN-LAST:event_searchGenreComboBoxActionPerformed
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    //ADD BOOK SCREEN POPS UP
+    private void addBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBookButtonActionPerformed
         try {
             new AddBookPopup(this).setVisible(true);
         } catch (ClassNotFoundException ex) {
@@ -1195,15 +941,77 @@ public class BookBuddy extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_addButtonActionPerformed
+    }//GEN-LAST:event_addBookButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    //DELETES BOOK FROM DATABASE, THEN ARRAYLIST
+    private void deleteBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBookButtonActionPerformed
         int selectedIndex = booksTable.getSelectedRow();
-        //call method
-        //delete
-        //update UI
+        try {
+            bm.deleteBook(selectedIndex);
+            updatesBookTableInManageBooksScreen();
+            JOptionPane.showMessageDialog(null, "Your book has been successfully deleted!", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
-    }//GEN-LAST:event_deleteButtonActionPerformed
+    }//GEN-LAST:event_deleteBookButtonActionPerformed
+
+    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
+        try {
+            new AddStudentPopup(this).setVisible(true);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_addStudentButtonActionPerformed
+
+    private void removeStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeStudentButtonActionPerformed
+        int selectedRowIndex = studentsTable.getSelectedRow();
+        try {
+            sm.deleteBook(selectedRowIndex);
+            populateStudentsTable();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_removeStudentButtonActionPerformed
+
+    private void editBookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBookButtonActionPerformed
+        int selectedRowIndex = booksTable.getSelectedRow();
+    }//GEN-LAST:event_editBookButtonActionPerformed
+
+    private void searchTitleTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTitleTextFieldKeyPressed
+
+    }//GEN-LAST:event_searchTitleTextFieldKeyPressed
+
+    private void searchTitleTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchTitleTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchTitleTextFieldActionPerformed
+
+    private void searchTitleTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTitleTextFieldKeyReleased
+        String partialTitle = searchTitleTextField.getText();
+        String[] borrowBooksColNames = new String[3];
+        borrowBooksColNames[0] = "Title";
+        borrowBooksColNames[1] = "Author";
+        borrowBooksColNames[2] = "Available books";
+
+        // gets data and populates table model, then sets table to table model
+        Object[][] borrowBooksTableData = bm.makeBooksTable(partialTitle);
+        DefaultTableModel borrowBooksTableModel = new DefaultTableModel(borrowBooksTableData, borrowBooksColNames);
+        borrowBooksTable.setModel(borrowBooksTableModel);
+    }//GEN-LAST:event_searchTitleTextFieldKeyReleased
+
+    public void setBorrowBooksTableModel() {
+
+    }
+    private void markAsReturnedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAsReturnedButtonActionPerformed
+        new RateBookPopup().setVisible(true);
+    }//GEN-LAST:event_markAsReturnedButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1248,45 +1056,32 @@ public class BookBuddy extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
+    private javax.swing.JButton addBookButton;
     private javax.swing.JButton addStudentButton;
-    private javax.swing.JLabel addStudentLabel;
     private javax.swing.JLabel amountOwedLabel;
     private javax.swing.JTextField amountOwedTextField;
     private javax.swing.JLabel availableBooksToBorrowLabel;
-    private javax.swing.JLabel bookTitleLabel2;
     private javax.swing.JTable booksTable;
     private javax.swing.JLabel borrowBookLabel;
-    private javax.swing.JLabel commentLabel;
-    private javax.swing.JTextField commentTextField;
-    private javax.swing.JButton confirmRatingButton;
+    private javax.swing.JTable borrowBooksTable;
     private com.github.lgooddatepicker.components.DatePicker dateBorrowedDatePicker;
+    private javax.swing.JLabel dateBorrowedErrorMessageLabel;
     private javax.swing.JLabel dateBorrowedLabel1;
-    private javax.swing.JLabel dateBorrowedLabel2;
     private com.github.lgooddatepicker.components.DatePicker dateReturnedDatePicker;
     private javax.swing.JLabel dateReturnedLabel;
     private javax.swing.JLabel daysOverdueLabel;
     private javax.swing.JTextField daysOverdueTextField;
-    private javax.swing.JButton deleteButton;
-    private javax.swing.JList<String> deleteStudentList;
-    private javax.swing.JButton editButton;
-    private javax.swing.JComboBox<String> filterByGenreComboBox;
-    private javax.swing.JComboBox<String> filterByGradeComboBox;
+    private javax.swing.JButton deleteBookButton;
+    private javax.swing.JButton editBookButton;
+    private javax.swing.JButton editStudentButton;
     private javax.swing.JLabel filterByGradeLabel;
-    private javax.swing.JLabel filterGenreLabel;
     private javax.swing.JComboBox<String> filterGradeComboBox;
-    private javax.swing.JLabel firstNameLabel;
-    private javax.swing.JTextField firstNameTextField;
-    private javax.swing.JComboBox<String> gradeComboBox;
-    private javax.swing.JLabel gradeLabel1;
     private javax.swing.JLabel highestRatedBooksLabel1;
     private javax.swing.JTextArea highestRatedBooksTextArea1;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
@@ -1295,25 +1090,23 @@ public class BookBuddy extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lookingForBooksLabel;
     private javax.swing.JLabel manageBooksLabel;
     private javax.swing.JLabel manageStudentsLabel;
     private javax.swing.JLabel manageStudentsLabel1;
     private javax.swing.JButton markAsBorrowedButton;
-    private javax.swing.JButton markAsReturnedRadioButton;
+    private javax.swing.JButton markAsReturnedButton;
     private javax.swing.JTextArea moreRecommendedBooksTextArea;
-    private javax.swing.JLabel rateBookLabel;
+    private javax.swing.JLabel noticeLabel1;
+    private javax.swing.JLabel noticeLabel2;
     private javax.swing.JTable recommendedBooksTable;
     private javax.swing.JButton removeStudentButton;
-    private javax.swing.JLabel removeStudentLabel;
     private javax.swing.JLabel returnABookLabel;
     private javax.swing.JComboBox<String> returnedByComboBox;
     private javax.swing.JLabel returnedByLabel;
@@ -1322,18 +1115,16 @@ public class BookBuddy extends javax.swing.JFrame {
     private javax.swing.JTextField searchFavAuthorTextField;
     private javax.swing.JLabel searchFavouriteAuthorLabel;
     private javax.swing.JLabel searchFavouriteBookTitleLabel;
+    private javax.swing.JLabel searchForBooksLabel;
     private javax.swing.JComboBox<String> searchGenreComboBox;
     private javax.swing.JLabel searchGenreLabel;
     private javax.swing.JButton searchTitleButton;
-    private javax.swing.JLabel selectRatingLabel;
-    private javax.swing.JSpinner selectRatingSpinner;
+    private javax.swing.JTextField searchTitleTextField;
     private javax.swing.JComboBox<String> selectStudentComboBox;
     private javax.swing.JLabel selectStudentLabel;
-    private javax.swing.JLabel surnameLabel;
-    private javax.swing.JTextField surnameTextField;
+    private javax.swing.JTable studentsTable;
     private javax.swing.JLabel takenOutBooksLabel;
     private javax.swing.JList<String> takenOutBooksList;
-    private javax.swing.JTable testTable;
     private javax.swing.JLabel weGotYouLabel;
     private javax.swing.JLabel youMightLikeLabel1;
     // End of variables declaration//GEN-END:variables

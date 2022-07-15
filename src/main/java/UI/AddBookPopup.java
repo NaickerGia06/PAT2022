@@ -25,13 +25,14 @@ public class AddBookPopup extends javax.swing.JFrame {
      * Creates new form AddBookPopup
      */
     BookBuddy parent;
+    BookManager bm;
 
     public AddBookPopup(BookBuddy parent) throws ClassNotFoundException, SQLException {
         initComponents();
         setLocationRelativeTo(null);
 
         //GenreComboBoxes
-        BookManager bm = new BookManager();
+        bm = new BookManager();
         DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
         ArrayList<String> genres = bm.getGenres();
         comboModel.addAll(genres);
@@ -62,6 +63,7 @@ public class AddBookPopup extends javax.swing.JFrame {
         isbnTextField = new javax.swing.JTextField();
         quantityLabel = new javax.swing.JLabel();
         quantitySpinner = new javax.swing.JSpinner();
+        closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,12 +84,6 @@ public class AddBookPopup extends javax.swing.JFrame {
         bookTitleLabel.setForeground(new java.awt.Color(0, 0, 0));
         bookTitleLabel.setText("Book Title:");
 
-        bookTitleTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bookTitleTextFieldActionPerformed(evt);
-            }
-        });
-
         authorLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         authorLabel.setForeground(new java.awt.Color(0, 0, 0));
         authorLabel.setText("Author:");
@@ -97,25 +93,21 @@ public class AddBookPopup extends javax.swing.JFrame {
         genreLabel.setText("Genre:");
 
         genreComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        genreComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                genreComboBoxActionPerformed(evt);
-            }
-        });
 
         ISBNLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         ISBNLabel.setForeground(new java.awt.Color(0, 0, 0));
         ISBNLabel.setText("ISBN:");
 
-        isbnTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                isbnTextFieldActionPerformed(evt);
-            }
-        });
-
         quantityLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         quantityLabel.setForeground(new java.awt.Color(0, 0, 0));
         quantityLabel.setText("Quantity:");
+
+        closeButton.setText("Close");
+        closeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -123,24 +115,28 @@ public class AddBookPopup extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(genreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ISBNLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(authorLabel)
+                                .addComponent(bookTitleLabel)
+                                .addComponent(quantityLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(genreComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 265, Short.MAX_VALUE)
+                                .addComponent(authorNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(quantitySpinner, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bookTitleTextField, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(isbnTextField)))
+                        .addComponent(addBookLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(genreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ISBNLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(authorLabel)
-                            .addComponent(bookTitleLabel)
-                            .addComponent(quantityLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(genreComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 265, Short.MAX_VALUE)
-                            .addComponent(authorNameTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(quantitySpinner, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bookTitleTextField, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(isbnTextField)))
-                    .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addBookLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +166,9 @@ public class AddBookPopup extends javax.swing.JFrame {
                     .addComponent(quantitySpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(quantityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(closeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -189,7 +187,7 @@ public class AddBookPopup extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        BookManager bm;
+
         try {
             bm = new BookManager();
             String title = bookTitleTextField.getText();
@@ -200,6 +198,7 @@ public class AddBookPopup extends javax.swing.JFrame {
 
             Book b = new Book(title, author, genre, ISBN, quantity);
             bm.addNewBook(b);
+            parent.updatesBookTableInManageBooksScreen();
             dispose();
             JOptionPane.showMessageDialog(null, "Your book has been added successfully!", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
         } catch (ClassNotFoundException ex) {
@@ -209,7 +208,7 @@ public class AddBookPopup extends javax.swing.JFrame {
         }
 
         try {
-            parent.setsBookTableInManageBooksScreen();
+            parent.updatesBookTableInManageBooksScreen();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AddBookPopup.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -217,18 +216,14 @@ public class AddBookPopup extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void bookTitleTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookTitleTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bookTitleTextFieldActionPerformed
+    private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
+        dispose();
+    }//GEN-LAST:event_closeButtonActionPerformed
 
-    private void genreComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreComboBoxActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_genreComboBoxActionPerformed
+    public void setComponents(int index) throws ClassNotFoundException, SQLException {
+        bm = new BookManager();
 
-    private void isbnTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_isbnTextFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_isbnTextFieldActionPerformed
-
+    }
     /**
      * @param args the command line arguments
      */
@@ -240,6 +235,7 @@ public class AddBookPopup extends javax.swing.JFrame {
     private javax.swing.JTextField authorNameTextField;
     private javax.swing.JLabel bookTitleLabel;
     private javax.swing.JTextField bookTitleTextField;
+    private javax.swing.JButton closeButton;
     private javax.swing.JComboBox<String> genreComboBox;
     private javax.swing.JLabel genreLabel;
     private javax.swing.JTextField isbnTextField;

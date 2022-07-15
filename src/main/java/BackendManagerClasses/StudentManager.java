@@ -63,6 +63,16 @@ public class StudentManager {
 
     }
 
+    //removes student from the databse (students table)
+    public void deleteBook(int i) throws ClassNotFoundException, SQLException {
+        DB db = new DB();
+        db.update("DELETE FROM students WHERE firstName = '" + students.get(i).getName() + "'\n"
+                + "AND surname = '" + students.get(i).getSurname() + "'\n"
+                + "AND grade = '" + students.get(i).getGrade() + "';");
+        students.remove(i);
+        System.out.println("This student has been removed from the database");
+    }
+
     //gets arrayList of students names and surnames
     public ArrayList<String> getStudentsNames() {
         ArrayList<String> names = new ArrayList<>();

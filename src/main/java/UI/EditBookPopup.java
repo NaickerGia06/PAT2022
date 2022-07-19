@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
  *
  * @author Gia Naicker
  */
-public class AddBookPopup extends javax.swing.JFrame {
+public class EditBookPopup extends javax.swing.JFrame {
 
     /**
      * Creates new form AddBookPopup
@@ -27,7 +27,7 @@ public class AddBookPopup extends javax.swing.JFrame {
     BookBuddy parent;
     BookManager bm;
 
-    public AddBookPopup(BookBuddy parent) throws ClassNotFoundException, SQLException {
+    public EditBookPopup(BookBuddy parent) throws ClassNotFoundException, SQLException {
         initComponents();
         setLocationRelativeTo(null);
 
@@ -51,7 +51,7 @@ public class AddBookPopup extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        addButton = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
         addBookLabel = new javax.swing.JLabel();
         bookTitleLabel = new javax.swing.JLabel();
         bookTitleTextField = new javax.swing.JTextField();
@@ -67,17 +67,17 @@ public class AddBookPopup extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        addButton.setText("Add");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setText("Edit");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
 
         addBookLabel.setFont(new java.awt.Font("Impact", 0, 35)); // NOI18N
         addBookLabel.setForeground(new java.awt.Color(0, 0, 0));
         addBookLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addBookLabel.setText("Add A Book");
+        addBookLabel.setText("Edit This Book");
         addBookLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         bookTitleLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -133,7 +133,7 @@ public class AddBookPopup extends javax.swing.JFrame {
                                 .addComponent(isbnTextField)))
                         .addComponent(addBookLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(closeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -168,7 +168,7 @@ public class AddBookPopup extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(closeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                    .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
@@ -186,34 +186,9 @@ public class AddBookPopup extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
 
-        try {
-            bm = new BookManager();
-            String title = bookTitleTextField.getText();
-            String author = authorNameTextField.getText();
-            String genre = (String) genreComboBox.getSelectedItem();
-            String ISBN = isbnTextField.getText();
-            int quantity = (Integer) quantitySpinner.getValue();
-
-            bm.addNewBook(title, author, genre, ISBN, quantity);
-            parent.updatesBookTableInManageBooksScreen();
-            dispose();
-            JOptionPane.showMessageDialog(null, "Your book has been added successfully!", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            parent.updatesBookTableInManageBooksScreen();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AddBookPopup.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AddBookPopup.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_addButtonActionPerformed
+    }//GEN-LAST:event_editButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         dispose();
@@ -229,12 +204,12 @@ public class AddBookPopup extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ISBNLabel;
     private javax.swing.JLabel addBookLabel;
-    private javax.swing.JButton addButton;
     private javax.swing.JLabel authorLabel;
     private javax.swing.JTextField authorNameTextField;
     private javax.swing.JLabel bookTitleLabel;
     private javax.swing.JTextField bookTitleTextField;
     private javax.swing.JButton closeButton;
+    private javax.swing.JButton editButton;
     private javax.swing.JComboBox<String> genreComboBox;
     private javax.swing.JLabel genreLabel;
     private javax.swing.JTextField isbnTextField;

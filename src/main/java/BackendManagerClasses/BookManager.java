@@ -27,23 +27,25 @@ public class BookManager {
 
         books = new ArrayList<>();
 
-        ResultSet rs = db.query("SELECT title, author, genres.genre, ISBN, quantity\n"
+        ResultSet rs = db.query("SELECT bookID, title, author, genres.genre, ISBN, quantity\n"
                 + "FROM librarydb.books, librarydb.genres\n"
                 + "WHERE books.genreID = genres.genreID;");
 
         while (rs.next()) {
-            String name = rs.getString(1);
-            String author = rs.getString(2);
-            String genre = rs.getString(3);
-            String ISBN = rs.getString(4);
-            int quantity = rs.getInt(5);
+            int bookID = rs.getInt(1);
+            String title = rs.getString(2);
+            String author = rs.getString(3);
+            String genre = rs.getString(4);
+            String ISBN = rs.getString(5);
+            int quantity = rs.getInt(6);
 
             //array list has its own add and sort function
-            books.add(new Book(name, author, genre, ISBN, quantity));
+            books.add(new Book(bookID, title, author, genre, ISBN, quantity));
 
         }
     }
 
+    //makes an ArrayList of titles of all books in the books ArrayList
     public ArrayList<String> getBookNames() {
         ArrayList<String> titles = new ArrayList<>();
 
@@ -54,6 +56,7 @@ public class BookManager {
         return titles;
     }
 
+    //makes an ArrayList of all genres in the database
     public ArrayList<String> getGenres() throws ClassNotFoundException, SQLException {
         DB db = new DB();
         genres = new ArrayList<>();
@@ -66,32 +69,7 @@ public class BookManager {
         return genres;
     }
 
-    private int getNumBooks(String partialTitle) {
-        int count = 0;
-        for (Book book : books) {
-            if (book.getTitle().contains(partialTitle)) {
-                count++;
-            }
-        }
-        return count;
-    }
-
-    //populates book table in borrow books based on search function (on key press event)
-    public Object[][] makeBooksTable(String partialTitle) {
-        Object[][] booksTable = new Object[getNumBooks(partialTitle)][3];
-
-        int currentRow = 0;
-        for (int i = 0; i < books.size(); i++) {
-            if (books.get(i).getTitle().toUpperCase().contains(partialTitle.toUpperCase())) {
-                booksTable[currentRow][0] = books.get(i).getTitle();
-                booksTable[currentRow][1] = books.get(i).getAuthorName();
-                booksTable[currentRow][2] = books.get(i).getQuantity();
-                currentRow++;
-            }
-        }
-        return booksTable;
-    }
-
+    //populates the manageBooks table displaying all information
     public Object[][] makeBooksTableForBookManagement() {
 
         Object[][] manageBooksTable = new Object[books.size()][5];
@@ -108,21 +86,34 @@ public class BookManager {
         return manageBooksTable;
     }
 
-    //populates borrowBooks table when the program runs
-    public Object[][] makeBorrowBooksTableWhenRun() {
-
-        Object[][] borrowBooksTableWhenRun = new Object[books.size()][3];
-
-        for (int row = 0; row < books.size(); row++) {
-
-            borrowBooksTableWhenRun[row][0] = books.get(row).getTitle();
-            borrowBooksTableWhenRun[row][1] = books.get(row).getAuthorName();
-            borrowBooksTableWhenRun[row][2] = books.get(row).getQuantity();
+    //helper method for borrowedBooksTable (gets number of books containing that string)
+    private int getNumBooks(String partialTitle) {
+        int count = 0;
+        for (Book book : books) {
+            if (book.getTitle().contains(partialTitle)) {
+                count++;
+            }
         }
-
-        return borrowBooksTableWhenRun;
+        return count;
     }
 
+    //populates book table in borrow books based on search function (on key press event)
+    public Object[][] makeBorrowedBooksTable(String partialTitle) {
+        Object[][] booksTable = new Object[getNumBooks(partialTitle)][3];
+
+        int currentRow = 0;
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getTitle().toUpperCase().contains(partialTitle.toUpperCase())) {
+                booksTable[currentRow][0] = books.get(i).getTitle();
+                booksTable[currentRow][1] = books.get(i).getAuthorName();
+                booksTable[currentRow][2] = books.get(i).getQuantity();
+                currentRow++;
+            }
+        }
+        return booksTable;
+    }
+
+    //deletes a book from the ArrayList and database
     public void deleteBook(int i) throws ClassNotFoundException, SQLException {
         DB db = new DB();
         db.update("DELETE FROM books WHERE title = '" + books.get(i).getTitle() + "'\n"
@@ -133,27 +124,23 @@ public class BookManager {
 
     }
 
-    //COMPARES GENRE TO GENRE OF BOOK AT A SPECIFIC POSITION IN THE ARRAYLIST
-    public ArrayList<String> getBooksFromGenre(String gen) throws ClassNotFoundException, SQLException {
-        ArrayList<String> booksFromGenre;
-        booksFromGenre = new ArrayList<>();
-        DB db = new DB();
-        ResultSet rs = db.query("SELECT title\n"
-                + "FROM librarydb.books, librarydb.genres\n"
-                + "WHERE books.genreID = genres.genreID\n"
-                + "AND genres.genre = '" + gen + "';");
-        while (rs.next()) {
-            String title = rs.getString(1);
-            booksFromGenre.add(title);
+    //Compares the chosen genre to the genre of a book at a specific position and adds
+    public ArrayList<Book> getBooksFromGenre(String gen) throws ClassNotFoundException, SQLException {
+        ArrayList<Book> booksFromGenre = new ArrayList<>();
+
+        for (int i = 0; i < books.size(); i++) {
+            if (gen.compareToIgnoreCase(books.get(i).getGenre()) == 0) {
+                booksFromGenre.add(books.get(i));
+            }
         }
         return booksFromGenre;
     }
 
-    //CONVERTS GENRE TO GENREID AND ADDS A NEW BOOK TO THE BOOKS TABLE
-    public void addNewBook(Book b) throws SQLException, ClassNotFoundException {
+    //Adds a new book to the database
+    public void addNewBook(String title, String author, String genre, String ISBN, int quantity) throws SQLException, ClassNotFoundException {
         DB db = new DB();
         ResultSet rs = db.query("SELECT genreID FROM genres\n"
-                + "WHERE genre = '" + b.getGenre() + "';");
+                + "WHERE genre = '" + genre + "';");
 
         int genreID = 0;
         while (rs.next()) {
@@ -161,7 +148,7 @@ public class BookManager {
         }
 
         String query = "INSERT INTO books (title, author, genreID, ISBN, quantity) "
-                + "VALUES ('" + b.getTitle() + "','" + b.getAuthorName() + "','" + genreID + "','" + b.getISBN() + "','" + b.getQuantity() + "');";
+                + "VALUES ('" + title + "','" + author + "','" + genreID + "','" + ISBN + "','" + quantity + "');";
 
         db.update(query);
     }
@@ -225,19 +212,39 @@ public class BookManager {
         sc.close();
 
         DB db = new DB();
-        ResultSet rs = db.query("SELECT bookID FROM books/n"
+        ResultSet bookRS = db.query("SELECT bookID FROM books\n"
                 + "WHERE title = '" + books.get(selectedStringIndex).getTitle() + "';");
-
         int bookID = 0;
-        while (rs.next()) {
-            bookID = rs.getInt(1);
+        while (bookRS.next()) {
+            bookID = bookRS.getInt(1);
+        }
+        ResultSet studentRS = db.query("SELECT studentID FROM students\n"
+                + "WHERE firstName = '" + firstName + "';");
+        int studentID = 0;
+        while (studentRS.next()) {
+            studentID = studentRS.getInt(1);
         }
 
         String query = "INSERT INTO borrowedBooks (bookID, studentID, dateBorrowed)\n"
-                + "VALUES ('" + b.getTitle() + "','" + b.getAuthorName() + "','" + genreID + "','" + b.getISBN() + "','" + b.getQuantity() + "');";
+                + "VALUES ('" + bookID + "','" + studentID + "','" + dateBorrowed + "');";
 
         db.update(query);
-        //decrease quantity available by one
+        //DON'T FORGET TO decrease quantity available by one
+    }
+
+    public int getNumAvailableBook(int bookID) throws ClassNotFoundException, SQLException {
+        DB db = new DB();
+
+        //use queries to get numTakenOut and numReturned
+        int quantity = 0;
+        int numTakenOut = 0;
+        int numReturned = 0;
+
+        return quantity - numTakenOut + numReturned;
+    }
+
+    public String setsComponentsToEditBook() {
+        return "";
     }
 
 }

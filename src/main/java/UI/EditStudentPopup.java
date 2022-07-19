@@ -18,14 +18,14 @@ import javax.swing.JOptionPane;
  *
  * @author Gia Naicker
  */
-public class AddStudentPopup extends javax.swing.JFrame {
+public class EditStudentPopup extends javax.swing.JFrame {
 
     BookBuddy parent;
     Student s;
     StudentManager sm;
 
     //CONSTRUCTOR
-    public AddStudentPopup(BookBuddy parent) throws ClassNotFoundException, SQLException {
+    public EditStudentPopup(BookBuddy parent) throws ClassNotFoundException, SQLException {
         initComponents();
         setLocationRelativeTo(null);
 
@@ -40,23 +40,23 @@ public class AddStudentPopup extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        addAStudentLabel = new javax.swing.JLabel();
+        editAStudentLabel = new javax.swing.JLabel();
         firstNameLabel = new javax.swing.JLabel();
         firstNameTextField = new javax.swing.JTextField();
         surnameLabel = new javax.swing.JLabel();
         surnameTextField = new javax.swing.JTextField();
         gradeLabel1 = new javax.swing.JLabel();
         gradeComboBox = new javax.swing.JComboBox<>();
-        addStudentButton = new javax.swing.JButton();
-        closeAddStudentScreen = new javax.swing.JButton();
+        editStudentButton = new javax.swing.JButton();
+        closeEditStudentButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        addAStudentLabel.setFont(new java.awt.Font("Impact", 0, 35)); // NOI18N
-        addAStudentLabel.setForeground(new java.awt.Color(0, 0, 0));
-        addAStudentLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        addAStudentLabel.setText("Add A Student");
-        addAStudentLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        editAStudentLabel.setFont(new java.awt.Font("Impact", 0, 35)); // NOI18N
+        editAStudentLabel.setForeground(new java.awt.Color(0, 0, 0));
+        editAStudentLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        editAStudentLabel.setText("Edit Information");
+        editAStudentLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         firstNameLabel.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         firstNameLabel.setForeground(new java.awt.Color(0, 0, 0));
@@ -72,17 +72,17 @@ public class AddStudentPopup extends javax.swing.JFrame {
 
         gradeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        addStudentButton.setText("Add");
-        addStudentButton.addActionListener(new java.awt.event.ActionListener() {
+        editStudentButton.setText("Edit");
+        editStudentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addStudentButtonActionPerformed(evt);
+                editStudentButtonActionPerformed(evt);
             }
         });
 
-        closeAddStudentScreen.setText("Close");
-        closeAddStudentScreen.addActionListener(new java.awt.event.ActionListener() {
+        closeEditStudentButton.setText("Close");
+        closeEditStudentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                closeAddStudentScreenActionPerformed(evt);
+                closeEditStudentButtonActionPerformed(evt);
             }
         });
 
@@ -93,16 +93,16 @@ public class AddStudentPopup extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(addAStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editAStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(addStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(closeAddStudentScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(closeEditStudentButton, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(surnameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(firstNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(firstNameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(gradeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(5, 5, 5)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -115,7 +115,7 @@ public class AddStudentPopup extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(addAStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(editAStudentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -132,8 +132,8 @@ public class AddStudentPopup extends javax.swing.JFrame {
                         .addComponent(firstNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(addStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(closeAddStudentScreen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(editStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(closeEditStudentButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(28, 28, 28))
         );
 
@@ -164,7 +164,7 @@ public class AddStudentPopup extends javax.swing.JFrame {
 
     //SETS TABLE
     //ADDS STUDENT TO THE DATABASE WHEN BUTTON IS CLICKED
-    private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
+    private void editStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStudentButtonActionPerformed
 
         String name = firstNameTextField.getText();
         String surname = surnameTextField.getText();
@@ -176,22 +176,22 @@ public class AddStudentPopup extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "A new student has been added.", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             } catch (SQLException ex) {
-                Logger.getLogger(AddStudentPopup.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(EditStudentPopup.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_addStudentButtonActionPerformed
+    }//GEN-LAST:event_editStudentButtonActionPerformed
 
-    private void closeAddStudentScreenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeAddStudentScreenActionPerformed
+    private void closeEditStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeEditStudentButtonActionPerformed
         dispose();
-    }//GEN-LAST:event_closeAddStudentScreenActionPerformed
+    }//GEN-LAST:event_closeEditStudentButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel addAStudentLabel;
-    private javax.swing.JButton addStudentButton;
-    private javax.swing.JButton closeAddStudentScreen;
+    private javax.swing.JButton closeEditStudentButton;
+    private javax.swing.JLabel editAStudentLabel;
+    private javax.swing.JButton editStudentButton;
     private javax.swing.JLabel firstNameLabel;
     private javax.swing.JTextField firstNameTextField;
     private javax.swing.JComboBox<String> gradeComboBox;

@@ -30,12 +30,13 @@ public class StudentManager {
 
         //acts as a scanner (must add 1 before traversing through ResultSet)
         while (rs.next()) {
+            int studentID = rs.getInt(1);
             String firstName = rs.getString(2);
             String surname = rs.getString(3);
             int grade = rs.getInt(4);
 
             //creates ArrayList of Students...use this arrayList later on
-            students.add(new Student(firstName, surname, grade)); //arrayList has own built-in methods
+            students.add(new Student(studentID, firstName, surname, grade)); //arrayList has own built-in methods
 
         }
     }
@@ -54,10 +55,10 @@ public class StudentManager {
     }
 
     //adds a new student to the database (studdents table)
-    public void addNewStudent(Student s) throws SQLException, ClassNotFoundException {
+    public void addNewStudent(String name, String surname, int grade) throws SQLException, ClassNotFoundException {
         DB db = new DB();
         String query = "INSERT INTO students (firstName, surname, grade) "
-                + "VALUES ('" + s.getName() + "','" + s.getSurname() + "','" + s.getGrade() + "');";
+                + "VALUES ('" + name + "','" + surname + "','" + grade + "');";
 
         db.update(query);
 
@@ -112,6 +113,14 @@ public class StudentManager {
         }
 
         return testTable;
+    }
+
+    public String setsComponentsToEditStudent(int selectedStudentIndex) {
+        String name = students.get(selectedStudentIndex).getName();
+        String surname = students.get(selectedStudentIndex).getSurname();
+        int grade = students.get(selectedStudentIndex).getGrade();
+
+        return;
     }
 
     @Override

@@ -11,14 +11,24 @@ package BackendDatatypes;
  */
 public class Student {
 
+    private int studentID;
     private String name;
     private String surname;
     private int grade;
 
-    public Student(String n, String s, int g) {
+    public Student(int sID, String n, String s, int g) {
+        this.studentID = sID;
         this.name = n;
         this.surname = s;
         this.grade = g;
+    }
+
+    public int getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(int studentID) {
+        this.studentID = studentID;
     }
 
     public String getName() {
@@ -47,7 +57,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" + "name=" + name + ", surname=" + surname + ", grade=" + grade + '}' + "\n";
+        return "Student{" + "studentID=" + studentID + ", name=" + name + ", surname=" + surname + ", grade=" + grade + '}';
     }
 
 }

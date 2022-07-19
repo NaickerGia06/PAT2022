@@ -14,18 +14,28 @@ import java.util.*;
  */
 public class Book {
 
+    private int bookID;
     private String title;
     private String authorName;
     private String genre;
     private String ISBN;
     private int quantity;
 
-    public Book(String t, String aN, String g, String isbn, int q) {
+    public Book(int bID, String t, String aN, String g, String isbn, int q) {
+        this.bookID = bID;
         this.title = t;
         this.authorName = aN;
         this.genre = g;
         this.ISBN = isbn;
         this.quantity = q;
+    }
+
+    public int getBookID() {
+        return bookID;
+    }
+
+    public void setBookID(int bookID) {
+        this.bookID = bookID;
     }
 
     public String getTitle() {
@@ -69,8 +79,9 @@ public class Book {
     }
 
     @Override
+
     public String toString() {
-        return "Book{" + "title=" + title + ", authorName=" + authorName + ", genre=" + genre + ", ISBN=" + ISBN + ", quantity=" + quantity + '}';
+        return "Book{" + "bookID=" + bookID + ", title=" + title + ", authorName=" + authorName + ", genre=" + genre + ", ISBN=" + ISBN + ", quantity=" + quantity + '}';
     }
 
 }

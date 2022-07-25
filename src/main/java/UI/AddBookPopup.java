@@ -188,30 +188,23 @@ public class AddBookPopup extends javax.swing.JFrame {
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
 
+        String title = bookTitleTextField.getText();
+        String author = authorNameTextField.getText();
+        String genre = (String) genreComboBox.getSelectedItem();
+        String ISBN = isbnTextField.getText();
+        int quantity = (Integer) quantitySpinner.getValue();
         try {
-            bm = new BookManager();
-            String title = bookTitleTextField.getText();
-            String author = authorNameTextField.getText();
-            String genre = (String) genreComboBox.getSelectedItem();
-            String ISBN = isbnTextField.getText();
-            int quantity = (Integer) quantitySpinner.getValue();
+            try {
+                bm.addNewBook(title, author, genre, ISBN, quantity);
+                parent.updatesBookTableInManageBooksScreen();
+                JOptionPane.showMessageDialog(null, "A new book has been added.", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
+                dispose();
+            } catch (SQLException ex) {
+                Logger.getLogger(AddBookPopup.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-            bm.addNewBook(title, author, genre, ISBN, quantity);
-            parent.updatesBookTableInManageBooksScreen();
-            dispose();
-            JOptionPane.showMessageDialog(null, "Your book has been added successfully!", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        try {
-            parent.updatesBookTableInManageBooksScreen();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(AddBookPopup.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(AddBookPopup.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_addButtonActionPerformed
 

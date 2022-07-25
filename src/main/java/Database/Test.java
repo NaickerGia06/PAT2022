@@ -9,6 +9,7 @@ import BackendManagerClasses.BookManager;
 import BackendManagerClasses.StudentManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JTable;
 
 /**
@@ -20,8 +21,7 @@ public class Test {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         StudentManager sm = new StudentManager();
         BookManager bm = new BookManager();
-        System.out.println(bm.getBooksFromGenre("Fiction"));
-        System.out.println(sm.getNamesFromGrade(8));
 
+        bm.calcOverdueBook("Secret Obsession", "Gia");
     }
 }

@@ -5,6 +5,9 @@
  */
 package UI;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,9 +19,12 @@ public class RateBookPopup extends javax.swing.JFrame {
     /**
      * Creates new form RateBook
      */
-    public RateBookPopup() {
+    BookBuddy parent;
+
+    public RateBookPopup(BookBuddy parent) {
         initComponents();
         setLocationRelativeTo(null);
+        this.parent = parent;
     }
 
     /**
@@ -37,9 +43,9 @@ public class RateBookPopup extends javax.swing.JFrame {
         commentLabel = new javax.swing.JLabel();
         closeRateBookScreenButton = new javax.swing.JButton();
         confirmRatingButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        pleaseLeaveRatingLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        commentTextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,14 +80,14 @@ public class RateBookPopup extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Please leave a rating or comment!");
+        pleaseLeaveRatingLabel.setFont(new java.awt.Font("Impact", 0, 15)); // NOI18N
+        pleaseLeaveRatingLabel.setForeground(new java.awt.Color(0, 0, 0));
+        pleaseLeaveRatingLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pleaseLeaveRatingLabel.setText("Please leave a rating or comment!");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        commentTextArea.setColumns(20);
+        commentTextArea.setRows(5);
+        jScrollPane1.setViewportView(commentTextArea);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -93,7 +99,7 @@ public class RateBookPopup extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pleaseLeaveRatingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 418, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(selectRatingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(selectRatingSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(commentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -109,7 +115,7 @@ public class RateBookPopup extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addComponent(rateOrCommentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pleaseLeaveRatingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(selectRatingLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -143,20 +149,31 @@ public class RateBookPopup extends javax.swing.JFrame {
     private void closeRateBookScreenButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeRateBookScreenButtonActionPerformed
         JOptionPane.showMessageDialog(null, "This book has been returned.", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
         dispose();
+        try {
+            parent.bm.getHighestRatedBooks();
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RateBookPopup.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RateBookPopup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_closeRateBookScreenButtonActionPerformed
 
     private void confirmRatingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmRatingButtonActionPerformed
-        // TODO add your handling code here:
+        int rating = (int) selectRatingSpinner.getValue();
+        String comment = commentTextArea.getText();
+        //pass these values into a function in bookBuddy, then call a method in bookManager using those values as arguments
+
     }//GEN-LAST:event_confirmRatingButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeRateBookScreenButton;
     private javax.swing.JLabel commentLabel;
+    private javax.swing.JTextArea commentTextArea;
     private javax.swing.JButton confirmRatingButton;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JLabel pleaseLeaveRatingLabel;
     private javax.swing.JLabel rateOrCommentLabel;
     private javax.swing.JLabel selectRatingLabel;
     private javax.swing.JSpinner selectRatingSpinner;

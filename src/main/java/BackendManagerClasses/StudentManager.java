@@ -6,10 +6,12 @@
 package BackendManagerClasses;
 
 import BackendDatatypes.Student;
+import BackendManagerClasses.BookManager;
 import Database.DB;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -20,10 +22,13 @@ public class StudentManager {
     private ArrayList<Student> students;
     private ArrayList<String> grades;
     private ArrayList<String> namesFromGrade;
+    BookManager bm;
+    DB db;
 
     public StudentManager() throws ClassNotFoundException, SQLException {
         DB db = new DB();
-
+        bm = new BookManager();
+        db = new DB();
         students = new ArrayList<>();
 
         ResultSet rs = db.query("SELECT * FROM students;");
@@ -43,7 +48,6 @@ public class StudentManager {
 
     //creates an arrayList of grades from 8-12
     public ArrayList<String> getGrades() throws ClassNotFoundException, SQLException {
-        DB db = new DB();
         grades = new ArrayList<>();
         ResultSet rs = db.query("SELECT DISTINCT grade FROM students ORDER BY grade;");
 
@@ -56,7 +60,6 @@ public class StudentManager {
 
     //adds a new student to the database (studdents table)
     public void addNewStudent(String name, String surname, int grade) throws SQLException, ClassNotFoundException {
-        DB db = new DB();
         String query = "INSERT INTO students (firstName, surname, grade) "
                 + "VALUES ('" + name + "','" + surname + "','" + grade + "');";
 
@@ -66,7 +69,6 @@ public class StudentManager {
 
     //removes student from the databse (students table)
     public void deleteBook(int i) throws ClassNotFoundException, SQLException {
-        DB db = new DB();
         db.update("DELETE FROM students WHERE firstName = '" + students.get(i).getName() + "'\n"
                 + "AND surname = '" + students.get(i).getSurname() + "'\n"
                 + "AND grade = '" + students.get(i).getGrade() + "';");
@@ -89,7 +91,6 @@ public class StudentManager {
     public ArrayList<String> getNamesFromGrade(int gr) throws ClassNotFoundException, SQLException {
         ArrayList<String> namesFromGrade = new ArrayList<>();
 
-        DB db = new DB();
         ResultSet rs = db.query("SELECT firstName, surname FROM students WHERE grade = " + gr + ";");
 
         while (rs.next()) {
@@ -115,12 +116,106 @@ public class StudentManager {
         return testTable;
     }
 
-    public String setsComponentsToEditStudent(int selectedStudentIndex) {
-        String name = students.get(selectedStudentIndex).getName();
-        String surname = students.get(selectedStudentIndex).getSurname();
-        int grade = students.get(selectedStudentIndex).getGrade();
+    public Student setComponentsToEditStudent(int selectedStudentIndex) {
+        return students.get(selectedStudentIndex);
+    }
 
-        return;
+    public void updateStudentInformation(int studentID, String name, String surname, int grade) throws ClassNotFoundException, SQLException {
+        db.update("UPDATE students\n"
+                + "SET firstName = '" + name + "', surname = '" + surname + "', grade = " + grade + "\n"
+                + "WHERE studentID = " + studentID + ";");
+    }
+
+    public ArrayList<String> populateReturnStudentComboBox() throws ClassNotFoundException, SQLException {
+        ArrayList<String> studentsToReturnList = new ArrayList<>();
+        ArrayList<String> studentIDs = new ArrayList<>();
+        ResultSet rs = db.query("SELECT DISTINCT studentID FROM borrowedBooks;");
+
+        int studentIDresult = 0;
+        while (rs.next()) {
+            studentIDresult = rs.getInt(1);
+            studentIDs.add(String.valueOf(studentIDresult));
+        }
+        for (int i = 0; i < students.size(); i++) {
+            for (int j = 0; j < studentIDs.size(); j++) {
+                if (students.get(i).getStudentID() == Integer.parseInt(studentIDs.get(j))) {
+                    studentsToReturnList.add(students.get(i).getName() + " " + students.get(i).getSurname());
+                }
+            }
+        }
+        return studentsToReturnList;
+    }
+
+    //checks how many times a student has taken out a book and returned it
+    public int doesStudentHaveBook(int bookID, int studentID) throws ClassNotFoundException, SQLException {
+        int numTakenOut = 0;
+        String query1 = "SELECT COUNT(borrowID) from borrowedbooks\n"
+                + "WHERE bookID = " + bookID + "\n"
+                + "AND studentID = " + studentID + ";";
+        System.out.println(query1);
+        ResultSet numTakenOutRS = db.query(query1);
+        numTakenOutRS.next();
+        numTakenOut = numTakenOutRS.getInt(1);
+
+        //Gets the number of times that book has been returned
+        int numReturned = 0;
+        String query2 = "SELECT COUNT(returnedID) from returnedBooks\n"
+                + "WHERE bookID = " + bookID + "\n"
+                + "AND studentID = " + studentID + ";";
+        System.out.println(query2);
+        ResultSet numReturnedRS = db.query(query2);
+        while (numReturnedRS.next()) {
+            numReturned = numReturnedRS.getInt(1);
+        }
+        int numStudentReturnedBook = numTakenOut - numReturned;
+
+        return numStudentReturnedBook;
+    }
+
+    public ArrayList<String> getStudentsForBook(String bookName) throws ClassNotFoundException, SQLException {
+        ArrayList<String> studentsToReturnList = new ArrayList<>();
+        ArrayList<String> studentIDs = new ArrayList<>();
+        int bookID = 0;
+        for (int i = 0; i < bm.books.size(); i++) {
+            if (bm.books.get(i).getTitle().compareToIgnoreCase(bookName) == 0) {
+                bookID = bm.books.get(i).getBookID();
+            }
+        }
+        String query = "SELECT DISTINCT studentID FROM borrowedBooks, books\n"
+                + "WHERE books.bookID = borrowedBooks.bookID\n"
+                + "AND title = '" + bookName + "';";
+        System.out.println(query);
+        ResultSet rs = db.query(query);
+
+        int studentIDresult = 0;
+        while (rs.next()) {
+            studentIDresult = rs.getInt(1);
+            studentIDs.add(String.valueOf(studentIDresult));
+        }
+        for (int i = 0; i < students.size(); i++) {
+            for (int j = 0; j < studentIDs.size(); j++) {
+                if (students.get(i).getStudentID() == Integer.parseInt(studentIDs.get(j)) && doesStudentHaveBook(bookID, students.get(i).getStudentID()) != 0) {
+                    studentsToReturnList.add(students.get(i).getName() + " " + students.get(i).getSurname());
+
+                }
+            }
+        }
+        return studentsToReturnList;
+    }
+
+    //Returns the student's studentID based on their name
+    public int getStudentIDFromName(String name) {
+        int studentID = 0;
+        Scanner sc = new Scanner(name);
+        String firstName = sc.next();
+
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getName().equals(firstName)) {
+                studentID = students.get(i).getStudentID();
+            }
+        }
+        return studentID;
+
     }
 
     @Override

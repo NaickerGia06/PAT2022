@@ -26,10 +26,18 @@ public class EditBookPopup extends javax.swing.JFrame {
      */
     BookBuddy parent;
     BookManager bm;
+    Book b;
 
-    public EditBookPopup(BookBuddy parent) throws ClassNotFoundException, SQLException {
+    public EditBookPopup(BookBuddy parent, Book b) throws ClassNotFoundException, SQLException {
         initComponents();
         setLocationRelativeTo(null);
+
+        this.b = b;
+        bookTitleTextField.setText(b.getTitle());
+        authorNameTextField.setText(b.getAuthorName());
+        genreComboBox.setSelectedItem(b.getGenre());
+        isbnTextField.setText(b.getISBN());
+        //quantitySpinner.setValue(String.valueOf(b.getQuantity()));
 
         //GenreComboBoxes
         bm = new BookManager();
@@ -187,7 +195,23 @@ public class EditBookPopup extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        int bookID = b.getBookID();
+        String title = bookTitleTextField.getText();
+        String author = authorNameTextField.getText();
+        int genreID = genreComboBox.getSelectedIndex() + 1;
+        String isbn = (String) isbnTextField.getText();
+        int quantity = (int) quantitySpinner.getValue();
 
+        try {
+            bm.updateBookInformation(bookID, title, author, genreID, isbn, quantity);
+            JOptionPane.showMessageDialog(null, "This book's information has been updated", "Confirmation Message", JOptionPane.INFORMATION_MESSAGE);
+            parent.updatesBookTableInManageBooksScreen();
+            dispose();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(EditBookPopup.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EditBookPopup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed

@@ -21,7 +21,6 @@ public class Test {
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         StudentManager sm = new StudentManager();
         BookManager bm = new BookManager();
-
-        bm.calcOverdueBook("Secret Obsession", "Gia");
+        System.out.println(bm.calcDaysOverdue(sm, "The Knife of Never Letting Go", "Zenya Naicker"));
     }
 }

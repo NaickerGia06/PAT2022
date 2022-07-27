@@ -1150,11 +1150,10 @@ public class BookBuddy extends javax.swing.JFrame {
 
         //Code used from Kevin Sadler on stackOverflow
         LocalDate dateReturned = dateReturnedDatePicker.getDate();
-        Instant instant = Instant.from(dateReturned.atStartOfDay(ZoneId.of("GMT")));
-        Date date = (Date) Date.from(instant);
 
         try {
-            bm.returnBook(title, name, date);
+            bm.returnBook(sm, title, name, dateReturned);
+            daysOverdueTextField.setText(String.valueOf(bm.calcDaysOverdue(sm, title, name)));
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BookBuddy.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -1299,7 +1298,7 @@ public class BookBuddy extends javax.swing.JFrame {
         try {
 
             DefaultComboBoxModel studentReturnComboModel = new DefaultComboBoxModel();
-            ArrayList<String> students = sm.getStudentsForBook(bookName);
+            ArrayList<String> students = sm.getStudentsForBook(bm, bookName);
             studentReturnComboModel.addAll(students);
             returnedByComboBox.setModel(studentReturnComboModel);
         } catch (ClassNotFoundException ex) {

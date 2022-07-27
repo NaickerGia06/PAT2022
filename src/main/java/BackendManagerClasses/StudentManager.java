@@ -22,12 +22,9 @@ public class StudentManager {
     private ArrayList<Student> students;
     private ArrayList<String> grades;
     private ArrayList<String> namesFromGrade;
-    BookManager bm;
     DB db;
 
     public StudentManager() throws ClassNotFoundException, SQLException {
-        DB db = new DB();
-        bm = new BookManager();
         db = new DB();
         students = new ArrayList<>();
 
@@ -129,7 +126,7 @@ public class StudentManager {
     public ArrayList<String> populateReturnStudentComboBox() throws ClassNotFoundException, SQLException {
         ArrayList<String> studentsToReturnList = new ArrayList<>();
         ArrayList<String> studentIDs = new ArrayList<>();
-        ResultSet rs = db.query("SELECT DISTINCT studentID FROM borrowedBooks;");
+        ResultSet rs = db.query("SELECT DISTINCT studentID FROM borrowedbooks;");
 
         int studentIDresult = 0;
         while (rs.next()) {
@@ -159,7 +156,7 @@ public class StudentManager {
 
         //Gets the number of times that book has been returned
         int numReturned = 0;
-        String query2 = "SELECT COUNT(returnedID) from returnedBooks\n"
+        String query2 = "SELECT COUNT(returnedID) from returnedbooks\n"
                 + "WHERE bookID = " + bookID + "\n"
                 + "AND studentID = " + studentID + ";";
         System.out.println(query2);
@@ -172,7 +169,7 @@ public class StudentManager {
         return numStudentReturnedBook;
     }
 
-    public ArrayList<String> getStudentsForBook(String bookName) throws ClassNotFoundException, SQLException {
+    public ArrayList<String> getStudentsForBook(BookManager bm, String bookName) throws ClassNotFoundException, SQLException {
         ArrayList<String> studentsToReturnList = new ArrayList<>();
         ArrayList<String> studentIDs = new ArrayList<>();
         int bookID = 0;
@@ -181,8 +178,8 @@ public class StudentManager {
                 bookID = bm.books.get(i).getBookID();
             }
         }
-        String query = "SELECT DISTINCT studentID FROM borrowedBooks, books\n"
-                + "WHERE books.bookID = borrowedBooks.bookID\n"
+        String query = "SELECT DISTINCT studentID FROM borrowedbooks, books\n"
+                + "WHERE books.bookID = borrowedbooks.bookID\n"
                 + "AND title = '" + bookName + "';";
         System.out.println(query);
         ResultSet rs = db.query(query);

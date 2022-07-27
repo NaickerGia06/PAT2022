@@ -11,6 +11,8 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -24,17 +26,15 @@ public class BookManager {
     private ArrayList<String> genres;
     ArrayList<Book> booksToReturn = new ArrayList<>();
     ArrayList<Book> booksFromGenre = new ArrayList<>();
-    StudentManager sm;
     DB db;
 
     public BookManager() throws ClassNotFoundException, SQLException {
         this.db = new DB();
 
         books = new ArrayList<>();
-        sm = new StudentManager();
 
         ResultSet rs = db.query("SELECT bookID, title, author, genres.genre, ISBN, quantity\n"
-                + "FROM librarydb.books, librarydb.genres\n"
+                + "FROM books, genres\n"
                 + "WHERE books.genreID = genres.genreID;");
 
         while (rs.next()) {
@@ -132,7 +132,7 @@ public class BookManager {
 
         ArrayList<String> bookIDs = new ArrayList<>();
 
-        ResultSet rs = db.query("SELECT DISTINCT bookID FROM borrowedBooks;");
+        ResultSet rs = db.query("SELECT DISTINCT bookID FROM borrowedbooks;");
 
         int bookID = 0;
         while (rs.next()) {
@@ -230,7 +230,6 @@ public class BookManager {
         String firstName = sc.next();
         sc.close();
 
-        DB db = new DB();
         ResultSet bookRS = db.query("SELECT bookID FROM books\n"
                 + "WHERE title = '" + selectedBookTitle + "';");
         int bookID = 0;
@@ -244,8 +243,8 @@ public class BookManager {
             studentID = studentRS.getInt(1);
         }
 
-        String query = "INSERT INTO borrowedBooks (bookID, studentID, dateBorrowed)\n"
-                + "VALUES ('" + bookID + "','" + studentID + "','" + dateBorrowed + "');";
+        String query = "INSERT INTO borrowedbooks (bookID, studentID, dateBorrowed)\n"
+                + "VALUES ('" + bookID + "','" + studentID + "','" + Date.valueOf(dateBorrowed) + "');";
 
         db.update(query);
         //DON'T FORGET TO decrease quantity available by one
@@ -280,7 +279,7 @@ public class BookManager {
 
         //Gets the number of times that book has been returned
         int numReturned = 0;
-        ResultSet numReturnedRS = db.query("SELECT COUNT(returnedID) from returnedBooks\n"
+        ResultSet numReturnedRS = db.query("SELECT COUNT(returnedID) from returnedbooks\n"
                 + "WHERE bookID = " + bookID + ";");
         while (numReturnedRS.next()) {
             numReturned = numReturnedRS.getInt(1);
@@ -368,12 +367,12 @@ public class BookManager {
     }
 
     //Takes in the title of the book, student and date it was returned and adds the record to the returnedbookstable in database
-    public void returnBook(String title, String studentFullName, Date dateReturned) throws ClassNotFoundException, SQLException {
+    public void returnBook(StudentManager sm, String title, String studentFullName, LocalDate dateReturned) throws ClassNotFoundException, SQLException {
         int studentID = sm.getStudentIDFromName(studentFullName);
         int bookID = getBookIDFromTitle(title);
 
-        db.update("INSERT INTO returnedBooks (bookID, studentID, dateReturned)\n"
-                + "VALUES(" + bookID + "," + studentID + ", '" + dateReturned + "');");
+        db.update("INSERT INTO returnedbooks (bookID, studentID, dateReturned)\n"
+                + "VALUES(" + bookID + "," + studentID + ", '" + Date.valueOf(dateReturned) + "');");
     }
 
     //Returns the book's bookID based on its title
@@ -388,21 +387,29 @@ public class BookManager {
     }
 
     //calculates the fine on overdue books based on the studentID and bookID of the record, returns a double as the amount due
-    public double calcOverdueBook(String title, String name) throws ClassNotFoundException, SQLException {
-        double fine = 0.00;
+    public long calcDaysOverdue(StudentManager sm, String title, String name) throws ClassNotFoundException, SQLException {
 
         int bookID = getBookIDFromTitle(title);
         int studentID = sm.getStudentIDFromName(name);
 
-        ResultSet rs = db.query("SELECT dateBorrowed FROM borrowedBooks\n"
+        ResultSet rs = db.query("SELECT dateBorrowed FROM borrowedbooks\n"
                 + "WHERE bookID = " + bookID + "\n"
-                + "AND studentID = " + studentID + ";"); //overdue books are R5 per day it is overdue
+                + "AND studentID = " + studentID + "\n"
+                + "ORDER BY dateBorrowed DESC\n"
+                + "LIMIT 1;"); //overdue books are R5 per day it is overdue
         rs.next();
 
         //rs does not have a LocalDate function and I was unable to convert a date to LocalDate so I used the Date class instead
-        Date dateBorrowed = rs.getDate(1);
-        System.out.println(dateBorrowed);
-        return 0.00;
+        LocalDate dateBorrowed = rs.getDate(1).toLocalDate();
+
+        long days = ChronoUnit.DAYS.between(dateBorrowed, LocalDate.now());
+        long daysOverdue = days - 14;
+        return daysOverdue;
+    }
+
+    public double calcFineOnOverdueBooks() {
+        double fine = 0.00;
+        return fine;
     }
 
 }
